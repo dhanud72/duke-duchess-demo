@@ -23,15 +23,52 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:14px}
 .installown{background:#11171c;color:#fff;border-color:#11171c}.installown h2{color:#e2c365}.installown p{color:#d6d8d6}.installown b{color:#fff}.osteps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.osteps>div{background:#ffffff0f;border:1px solid #ffffff24;border-radius:14px;padding:12px 14px}.osteps ol{margin:6px 0 0;padding-left:18px;color:#d6d8d6;font-size:15px}.osteps li{margin:3px 0}.osteps>div.mine{border-color:#e2c365;box-shadow:0 0 0 1px #e2c365}
 .osteps.known>div:not(.mine){display:none}@media(max-width:600px){.osteps{grid-template-columns:1fr}}
 *{-webkit-tap-highlight-color:transparent}.btn:active{transform:scale(.97)}@media(display-mode:standalone){html,body{overscroll-behavior-y:none}}header{padding-top:env(safe-area-inset-top)}
+
+/* Sheet guides */
+.once{display:inline-block;vertical-align:middle;margin-left:6px;padding:2px 8px;border-radius:999px;background:#f1efe8;color:var(--muted);font-size:12px;letter-spacing:.04em}
+.howto{margin:12px 0;border-top:1px solid var(--line)}
+.howto details{border-bottom:1px solid var(--line)}
+.howto summary{list-style:none;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700;font-size:16px}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary:after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:#f1efe8;display:grid;place-items:center;font-size:18px;font-weight:600}
+.howto details[open] summary:after{content:"−";background:#e2c365}
+.howto details p{margin:0 0 14px;color:var(--muted);font-size:15px}
+.howto code,.notice code{background:#f1efe8;padding:1px 6px;font-size:14px}
 </style></head><body>
 <header><div class="wrap head"><a href="index.html" class="brand">new duke <span>&amp; duchess.</span></a><a class="back" href="index.html">← Website</a></div></header>
 <main class="wrap">
 <h1>Update your website.</h1>
 <p class="lead">Everything on the website comes from one Google Sheet. Change the sheet on your phone or computer, and every customer sees it the next time they open the site.</p>
 
-<section class="card installown" id="installCard"><h2>Put this on your phone</h2><p>Keep the owner page as its own app, “D&amp;D Owner”. It remembers your sheet and checks it every time you open it.</p><button type="button" class="btn gold" id="ownerInstall" hidden>Install D&amp;D Owner</button><div class="osteps"><div data-os="ios"><b>iPhone</b><ol><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol></div><div data-os="android"><b>Android</b><ol><li>Open this page in <b>Chrome</b>.</li><li>Tap <b>⋮</b> → <b>Install app</b> (or Add to Home screen).</li><li>Tap <b>Install</b>.</li></ol></div></div></section><section class="card"><h2>1. Your sheet</h2><div id="sheetState"></div><form class="linkform" id="linkForm"><label for="sheetLink">Google Sheet link</label><input id="sheetLink" type="url" inputmode="url" autocomplete="off" placeholder="Paste the link from Share → Copy link"><div class="btns"><button class="btn" id="checkBtn" type="submit">Check my sheet</button><a class="btn gold" id="openSheet" target="_blank" rel="noopener" hidden>Open the sheet ↗</a></div></form><p class="status" id="checkStatus" aria-live="polite"></p><div class="report" id="report" hidden></div><div class="golive" id="goLive" hidden></div></section><section class="card" id="previewCard" hidden><h2>What customers will see</h2><p class="muted">From the sheet you just checked. Tabs with a red mark show the built-in content instead.</p><div class="branchtabs" id="branchTabs" role="tablist"><button type="button" data-b="RR Nagar" aria-selected="true">R R Nagar</button><button type="button" data-b="Nagarabhavi" aria-selected="false">Nagarabhavi</button></div><div id="preview"></div></section>
+<section class="card installown" id="installCard"><h2>Put this on your phone</h2><p>Keep the owner page as its own app, “D&amp;D Owner”. It remembers your sheet and checks it every time you open it.</p><button type="button" class="btn gold" id="ownerInstall" hidden>Install D&amp;D Owner</button><div class="osteps"><div data-os="ios"><b>iPhone</b><ol><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol></div><div data-os="android"><b>Android</b><ol><li>Open this page in <b>Chrome</b>.</li><li>Tap <b>⋮</b> → <b>Install app</b> (or Add to Home screen).</li><li>Tap <b>Install</b>.</li></ol></div></div></section><section class="card" id="setupCard"><h2>1. Make your sheet <span class="once">once</span></h2>
+<p>About five minutes. A computer is easiest, a phone works too.</p>
+<div class="btns"><a class="btn gold" href="Duke-Duchess-Website-Sheet.xlsx" download>Download the sheet template</a></div>
+<ol class="steps">
+<li><b>Download the template</b> above. It already has every tab and column, with sample rows to copy.</li>
+<li>Open <b>drive.google.com</b> or the <b>Google Drive</b> app, signed in with the salon’s Google account. Tap <b>New</b> (or <b>+</b>) → <b>File upload</b> and pick the file you downloaded.</li>
+<li>Open the uploaded file. It is still an Excel file, marked <b>.XLSX</b> next to its name. Choose <b>File → Save as Google Sheets</b>; on a phone, <b>⋮ → Share &amp; export → Save as Google Sheets</b>. A new copy opens. Use only that copy and delete the Excel one, so nobody edits the wrong file.</li>
+<li>Tap <b>Share</b>. Under General access choose <b>Anyone with the link</b>, role <b>Viewer</b>. Customers can only read it, never change it. Then tap <b>Copy link</b>.</li>
+<li>Paste the link in step 2 below and press <b>Check my sheet</b>.</li>
+</ol>
+<p class="muted">So a manager can edit too: <b>Share</b> → type their Gmail address → <b>Editor</b>.</p>
+</section>
+<section class="card"><h2>2. Connect your sheet</h2><div id="sheetState"></div><form class="linkform" id="linkForm"><label for="sheetLink">Google Sheet link</label><input id="sheetLink" type="url" inputmode="url" autocomplete="off" placeholder="Paste the link from Share → Copy link"><div class="btns"><button class="btn" id="checkBtn" type="submit">Check my sheet</button><a class="btn gold" id="openSheet" target="_blank" rel="noopener" hidden>Open the sheet ↗</a></div></form><p class="status" id="checkStatus" aria-live="polite"></p><div class="report" id="report" hidden></div><div class="golive" id="goLive" hidden></div></section><section class="card" id="previewCard" hidden><h2>What customers will see</h2><p class="muted">From the sheet you just checked. Tabs with a red mark show the built-in content instead.</p><div class="branchtabs" id="branchTabs" role="tablist"><button type="button" data-b="RR Nagar" aria-selected="true">R R Nagar</button><button type="button" data-b="Nagarabhavi" aria-selected="false">Nagarabhavi</button></div><div id="preview"></div></section>
 
-<section class="card"><h2>2. What each tab changes</h2><p class="muted">One row per item. Columns like Branches, Category, Show and In stock have a <b>dropdown</b>: tap the cell and pick. In the <b>Branches</b> column choose <code>R R Nagar</code>, <code>Nagarabhavi</code> or <code>Both</code>. To hide something without deleting it, write <code>no</code> in <b>Show</b>.</p>
+<section class="card"><h2>3. Changing things</h2>
+<p>Open the sheet in the <b>Google Sheets</b> app (iPhone or Android) or at <b>sheets.google.com</b>. The tabs (Services, Team, Products…) are along the <b>bottom</b>. Tap a cell, type, then tap <b>✓</b>. There is no Save button: Google saves as you type.</p>
+<div class="howto">
+<details><summary>Change a price, name or detail</summary><p>Go to the tab, tap the cell, type the new value, tap ✓.</p></details>
+<details><summary>Add a service, product, person or offer</summary><p>Use the first empty row under the last one. Quickest: copy a similar row (long-press its row number → <b>Copy</b>), paste it into the empty row, then change what is different. Pick the branch in <b>Branches</b> and set <b>Show</b> to <code>yes</code>.</p></details>
+<details><summary>Hide something for a while</summary><p>Set <b>Show</b> to <code>no</code>. It disappears from the website but stays in the sheet for later. For a product that has run out, set <b>In stock</b> to <code>no</code> instead. It stays visible as “Out of stock”.</p></details>
+<details><summary>Remove something for good</summary><p>Long-press the row number on a phone, or right-click it on a computer → <b>Delete row</b>.</p></details>
+<details><summary>Close for a holiday</summary><p><b>Holidays</b> tab → a new row: <b>Date</b>, <b>Branches</b>, <b>Reason</b>. Closed for several days? Put the last day in <b>Until</b>. Open for a few hours? Put them in <b>Special hours</b>.</p></details>
+<details><summary>Change opening hours</summary><p><b>Hours</b> tab → the day’s row, the branch’s column. Write <code>Closed</code> for a weekly off.</p></details>
+<details><summary>Show a message at the top of the website</summary><p><b>Settings</b> tab → <b>Announcement</b>. Put the last day in <b>Announcement until</b> and it goes away by itself.</p></details>
+<details><summary>When do customers see it?</summary><p>Within a few minutes, the next time they open or refresh the website. Press <b>Check my sheet</b> above to see it first.</p></details>
+</div>
+<p class="notice"><b>Keep as they are:</b> the tab names and the first row of every tab (the column names). The website finds everything by those words. Write dates like <code>30/11/2026</code>.</p>
+</section>
+<section class="card"><h2>4. What each tab changes</h2><p class="muted">One row per item. Columns like Branches, Category, Show and In stock have a <b>dropdown</b>: tap the cell and pick. In the <b>Branches</b> column choose <code>R R Nagar</code>, <code>Nagarabhavi</code> or <code>Both</code>. To hide something without deleting it, write <code>no</code> in <b>Show</b>.</p>
 <div class="tabs">
 <div class="tab"><h3>Services</h3><ul><li>Name, Category (Hair, Skin, Nails or Bridal), Duration in minutes, Price as you want it shown (<code>₹350</code> or <code>₹2,999 onwards</code>).</li><li>Booking times use the duration, so keep it accurate.</li></ul></div>
 <div class="tab"><h3>Team</h3><ul><li>Name, Role, Experience, About, Branches.</li><li><b>Services</b>: the services this person does, written exactly as in the Services tab, separated by commas.</li><li><b>Photo link</b>: see “Adding photos” below.</li></ul></div>
@@ -42,9 +79,9 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:14px}
 <div class="tab"><h3>Settings</h3><ul><li>WhatsApp and phone number for each branch. Bookings and orders go to these.</li><li>Booking slot (minutes between times), minimum notice, how many days ahead people can book.</li><li><b>Announcement</b>: a message shown at the top of the website, with an end date in <b>Announcement until</b>.</li></ul></div>
 </div></section>
 
-<section class="card"><h2>3. Adding photos</h2><ol class="steps"><li>Open the <b>Google Drive</b> app and upload the photo.</li><li><b>iPhone:</b> tap <b>⋯</b> on the photo → <b>Share</b> → <b>Manage access</b>, set General access to <b>Anyone with the link</b>. <b>Android:</b> tap <b>⋮</b> → <b>Share</b> → <b>Manage access</b> → <b>Anyone with the link</b>.</li><li>Tap <b>Copy link</b>, open the sheet in the <b>Google Sheets</b> app, and paste it in the <b>Photo link</b> column.</li></ol><p class="muted">Use a clear, bright photo, taken in portrait. One person per photo for the Team tab.</p></section>
+<section class="card"><h2>5. Adding photos</h2><ol class="steps"><li>Open the <b>Google Drive</b> app and upload the photo.</li><li><b>iPhone:</b> tap <b>⋯</b> on the photo → <b>Share</b> → <b>Manage access</b>, set General access to <b>Anyone with the link</b>. <b>Android:</b> tap <b>⋮</b> → <b>Share</b> → <b>Manage access</b> → <b>Anyone with the link</b>.</li><li>Tap <b>Copy link</b>, open the sheet in the <b>Google Sheets</b> app, and paste it in the <b>Photo link</b> column.</li></ol><p class="muted">Use a clear, bright photo, taken in portrait. One person per photo for the Team tab.</p></section>
 
-<section class="card"><h2>4. Bookings and orders</h2><p>Customers send them to you on WhatsApp, already written out. Reply to confirm the slot or tell them when an order is ready.</p><div id="numbers" class="muted"></div></section>
+<section class="card"><h2>6. Bookings and orders</h2><p>Customers send them to you on WhatsApp, already written out. Reply to confirm the slot or tell them when an order is ready.</p><div id="numbers" class="muted"></div></section>
 </main>
 <footer class="wrap">Need a change the sheet can’t make (new photos of the salon, page layout)? Ask your web developer.</footer>
 <script src="catalog.js"></script><script src="studio.js"></script></body></html>
