@@ -36,6 +36,7 @@ $("branchTabs").addEventListener("click",e=>{const x=e.target.closest("[data-b]"
 
 $("linkForm").addEventListener("submit",async e=>{e.preventDefault();const link=$("sheetLink").value.trim(),st=$("checkStatus");st.className="status";$("goLive").hidden=true;
   if(!link){st.textContent="Paste your Google Sheet link first.";st.classList.add("bad");$("sheetLink").focus();return}
+  if(/drive\.google\.com\/file|rtpof=true|\.xlsx/i.test(link)){st.innerHTML="This is the <b>Excel file</b>, not a Google Sheet. Open it in Google Sheets, choose <b>File → Save as Google Sheets</b>, then paste the link of that new copy.";st.classList.add("bad");return}
   if(!SalonData.idFrom(link)){st.textContent="That doesn’t look like a Google Sheet link. In the sheet tap Share → Copy link, then paste it here.";st.classList.add("bad");return}
   const btn=$("checkBtn");btn.disabled=true;btn.textContent="Checking…";st.textContent="";
   const isLive=live&&SalonData.idFrom(live)===SalonData.idFrom(link);
@@ -44,7 +45,8 @@ $("linkForm").addEventListener("submit",async e=>{e.preventDefault();const link=
   const keys=Object.keys(NAMES),allOk=keys.every(k=>r[k]&&r[k].ok),clean=allOk&&keys.every(k=>!r[k].warnings.length);
   // When every tab fails for the same reason (usually sharing), say it once instead of seven times.
   const errs=keys.map(k=>r[k]&&r[k].error).filter(Boolean),shared=errs.length===keys.length&&errs.every(x=>x===errs[0])?errs[0]:null;
-  const sharingSteps=/shared|reach/i.test(shared||"")?'<ol><li>Open the sheet in the Google Sheets app.</li><li>Tap <b>Share</b> (or ⋮ → Share and export → Share).</li><li>Under General access choose <b>Anyone with the link</b>, role <b>Viewer</b>.</li><li>Come back here and press Check again.</li></ol>':"";
+  const findSteps="<ol><li>If you uploaded the Excel file, open it in Google Sheets and choose <b>File → Save as Google Sheets</b>. Use the link of that new copy.</li><li>Otherwise open the sheet, tap <b>Share → Copy link</b> and paste the whole link here again.</li></ol>";
+  const sharingSteps=/can’t find/.test(shared||"")?findSteps:/shared|reach/i.test(shared||"")?'<ol><li>Open the sheet in the Google Sheets app.</li><li>Tap <b>Share</b> (or ⋮ → Share and export → Share).</li><li>Under General access choose <b>Anyone with the link</b>, role <b>Viewer</b>.</li><li>Come back here and press Check again.</li></ol>':"";
   $("report").hidden=false;
   $("report").innerHTML=(shared?'<div class="onefix"><b>'+E(shared)+"</b>"+sharingSteps+"</div>":"")+keys.map(k=>{const t=r[k]||{};const head=t.ok?'<span class="ok">✓ '+t.count+(k==="hours"?" days":k==="settings"?" settings":" rows")+"</span>":'<span class="bad">✗ '+E(shared?"Not read":(t.error||"Not read"))+"</span>";
     return '<div class="row"><b>'+NAMES[k]+"</b><div>"+head+(t.warnings&&t.warnings.length?"<ul>"+t.warnings.map(w=>"<li>"+E(w)+"</li>").join("")+"</ul>":"")+"</div></div>"}).join("");

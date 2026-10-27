@@ -145,7 +145,7 @@ async function refresh(link,opts){const preview=!!(opts&&opts.preview),id=link?i
   await Promise.all(Object.entries(TABS).map(async([k,tab])=>{const r=report[k]={tab,ok:false,count:0,warnings:[]};const warn=w=>r.warnings.push(w);
     try{let res;try{res=await fetch("https://docs.google.com/spreadsheets/d/"+id+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(tab),{cache:"no-store"})}
       catch(e){throw new Error("Couldn’t reach the sheet. Check it is shared as “Anyone with the link → Viewer”, and that you are online.")}
-      if(!res.ok)throw new Error("Couldn’t open the sheet (error "+res.status+"). Check the link and the sharing setting.");const text=await res.text();if(/<html/i.test(text.slice(0,300)))throw new Error("The sheet isn’t shared. In Google Sheets: Share → General access → Anyone with the link → Viewer.");
+      if(res.status===404)throw new Error("Google can’t find a Google Sheet at this link.");if(!res.ok)throw new Error("Couldn’t open the sheet (error "+res.status+"). Check the link and the sharing setting.");const text=await res.text();if(/<html/i.test(text.slice(0,300)))throw new Error("The sheet isn’t shared. In Google Sheets: Share → General access → Anyone with the link → Viewer.");
       const head=(parseCSV(text)[0]||[]).map(key);const missing=REQUIRED[k].filter(h=>!head.includes(h));
       if(missing.length)throw new Error("Can’t find the “"+tab+"” tab. Check the tab is named exactly “"+tab+"” and its first row still has the column names.");
       const rows=records(text);
