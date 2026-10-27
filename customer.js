@@ -29,7 +29,8 @@ const avatar=a=>a.photo?'<img src="'+H(a.photo)+'" alt="">':H(a.name.charAt(0));
 
 // ── Branch page: photos, gallery, team heading ────────────────────────────
 function renderBranchPage(){const b=BRANCHES[currentBranch],k=b.key;$("heroImage").src=data.photos[k+"Hero"]||"";$("heroImage").alt="Inside New Duke and Duchess, "+b.name;$("heroTag").textContent=b.name.toUpperCase()+" STUDIO";$("galleryEyebrow").textContent=b.eyebrow;$("galleryTitle").textContent=b.title;$("galleryIntro").textContent=b.intro;$("galleryGrid").innerHTML=b.gallery.map(([cap,alt],i)=>{const src=data.photos[k+"G"+(i+1)];return src?'<figure'+(i?'':' class="large"')+'><img loading="lazy" src="'+H(src)+'" alt="'+H(alt)+'"><figcaption>'+H(cap.toUpperCase())+'</figcaption></figure>':""}).join("");$("teamTitle").textContent="The "+b.name+" team.";for(const [key,selector] of Object.entries({Hair:".service.one",Skin:".service.two",Nails:".service.three",More:".service.four"})){const src=data.photos[k+key];document.querySelector(selector).style.backgroundImage=src?'url("'+src.replace(/"/g,"%22")+'")':"none"}
-  const bg=data.photos[k+"Hero"];$("booking").style.setProperty("--bookbg",bg?'url("'+bg.replace(/"/g,"%22")+'")':"none")}
+  const bg=data.photos[k+"Hero"];$("booking").style.setProperty("--bookbg",bg?'url("'+bg.replace(/"/g,"%22")+'")':"none");
+  document.querySelectorAll("[data-bg]").forEach(s=>{const src=data.photos[k+s.dataset.bg];s.style.setProperty("--secbg",src?'url("'+src.replace(/"/g,"%22")+'")':"none")})}
 
 // ── Opening hours and live status ──────────────────────────────────────────
 function weekSummary(b){const days=data.hours[b]||[],fmt=h=>h?clock(h.open)+"–"+clock(h.close):"Closed",names=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
