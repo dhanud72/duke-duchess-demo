@@ -42,13 +42,27 @@ $("linkForm").addEventListener("submit",async e=>{e.preventDefault();const link=
   const r=await SalonData.refresh(link,{preview:!isLive});btn.disabled=false;btn.textContent="Check again";
   if(!isLive){store.set(LINK_KEY,link);$("openSheet").href=link;$("openSheet").hidden=false}
   const keys=Object.keys(NAMES),allOk=keys.every(k=>r[k]&&r[k].ok),clean=allOk&&keys.every(k=>!r[k].warnings.length);
+  // When every tab fails for the same reason (usually sharing), say it once instead of seven times.
+  const errs=keys.map(k=>r[k]&&r[k].error).filter(Boolean),shared=errs.length===keys.length&&errs.every(x=>x===errs[0])?errs[0]:null;
+  const sharingSteps=/shared|reach/i.test(shared||"")?'<ol><li>Open the sheet in the Google Sheets app.</li><li>Tap <b>Share</b> (or ⋮ → Share and export → Share).</li><li>Under General access choose <b>Anyone with the link</b>, role <b>Viewer</b>.</li><li>Come back here and press Check again.</li></ol>':"";
   $("report").hidden=false;
-  $("report").innerHTML=keys.map(k=>{const t=r[k]||{};const head=t.ok?'<span class="ok">✓ '+t.count+(k==="hours"?" days":k==="settings"?" settings":" rows")+"</span>":'<span class="bad">✗ '+E(t.error||"Not read")+"</span>";
+  $("report").innerHTML=(shared?'<div class="onefix"><b>'+E(shared)+"</b>"+sharingSteps+"</div>":"")+keys.map(k=>{const t=r[k]||{};const head=t.ok?'<span class="ok">✓ '+t.count+(k==="hours"?" days":k==="settings"?" settings":" rows")+"</span>":'<span class="bad">✗ '+E(shared?"Not read":(t.error||"Not read"))+"</span>";
     return '<div class="row"><b>'+NAMES[k]+"</b><div>"+head+(t.warnings&&t.warnings.length?"<ul>"+t.warnings.map(w=>"<li>"+E(w)+"</li>").join("")+"</ul>":"")+"</div></div>"}).join("");
   st.textContent=clean?"Everything looks good.":allOk?"The sheet works. Fix the red notes for best results, then check again.":"Some tabs couldn’t be read. Fix the red lines, then check again.";st.classList.add(clean||allOk?"good":"bad");
   if(allOk&&!isLive){$("goLive").hidden=false;$("goLive").innerHTML="<p><b>Ready to go live.</b> Send this message to your web developer once:</p><textarea readonly id=\"goLiveMsg\">Please connect the New Duke & Duchess website to our Google Sheet: "+E(link)+"</textarea><div class=\"btns\"><button type=\"button\" class=\"btn\" id=\"copyMsg\">Copy message</button></div>"}
   lastData=r.data;$("previewCard").hidden=false;renderPreview();$("report").scrollIntoView({behavior:"smooth",block:"start"})});
 
 document.addEventListener("click",async e=>{if(e.target.id!=="copyMsg")return;const t=$("goLiveMsg");try{await navigator.clipboard.writeText(t.value);e.target.textContent="Copied ✓"}catch(err){t.select();document.execCommand("copy");e.target.textContent="Copied ✓"}});
+
+// ── The owner page as its own app ─────────────────────────────────────────
+(()=>{const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),android=/android/i.test(ua);
+  const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;if(standalone){$("installCard").hidden=true;return}
+  const mine=document.querySelector('.osteps [data-os="'+(ios?"ios":android?"android":"")+'"]');if(mine){mine.classList.add("mine");mine.parentElement.classList.add("known")}
+  let deferred=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("ownerInstall").hidden=false});
+  $("ownerInstall").addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;$("ownerInstall").hidden=true});
+  window.addEventListener("appinstalled",()=>{$("installCard").innerHTML='<h2>Installed ✓</h2><p>Find “D&amp;D Owner” with your other apps.</p>'})})();
+
+// Opening the app with a saved sheet checks it straight away.
+if($("sheetLink").value&&(new URLSearchParams(location.search).has("check")||matchMedia("(display-mode: standalone)").matches||navigator.standalone))$("linkForm").requestSubmit();
 
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
