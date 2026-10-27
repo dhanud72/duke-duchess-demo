@@ -1,0 +1,24 @@
+{
+  "name": "New Duke & Duchess",
+  "short_name": "Duke & Duchess",
+  "description": "Premium hair, colour, grooming, skin and nail care in R R Nagar and Nagarabhavi, Bengaluru.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0f11",
+  "theme_color": "#0b0f11",
+  "lang": "en-IN",
+  "categories": ["beauty", "lifestyle", "shopping"],
+  "icons": [
+    { "src": "icons/icon-any-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-any-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Book an appointment", "short_name": "Book", "url": "./#booking", "icons": [{ "src": "icons/icon-any-192.png", "sizes": "192x192" }] },
+    { "name": "Find a branch", "short_name": "Branches", "url": "./#locations", "icons": [{ "src": "icons/icon-any-192.png", "sizes": "192x192" }] }
+  ]
+}
