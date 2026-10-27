@@ -133,18 +133,30 @@ function dayInfo(data,branch,iso){const hol=data.holidays.find(h=>iso>=h.from&&i
 function readCache(){try{return JSON.parse(localStorage.getItem(CACHE_KEY)||"null")}catch(e){return null}}
 function load(){const data=copy(defaults),cache=readCache();if(cache&&cache.id===sheetId()&&cache.tabs)for(const k in TABS)if(cache.tabs[k]!=null)data[k]=copy(cache.tabs[k]);resolveSkills(data);return data}
 
-async function refresh(){const id=sheetId();if(!id)return {connected:false};
-  const report={connected:true,at:new Date().toISOString()},tabs={},old=readCache();
+// Google returns the FIRST tab when a tab name doesn't exist, so each tab is
+// recognised by its own column headings instead of trusting the name.
+const REQUIRED={services:["name","duration"],artists:["name","role"],products:["name","instock"],offers:["title","discount"],hours:["day"],holidays:["date","reason"],settings:["setting","value"]};
+function idFrom(link){const m=/\/d\/([\w-]{20,})/.exec(link||"");return m?m[1]:/^[\w-]{30,}$/.test((link||"").trim())?link.trim():""}
+
+// refresh() reads the connected sheet and updates what customers see.
+// refresh(link,{preview:true}) reads any sheet without touching the live copy (owner page test).
+async function refresh(link,opts){const preview=!!(opts&&opts.preview),id=link?idFrom(link):sheetId();if(!id)return {connected:false,badLink:!!link};
+  const report={connected:true,id,at:new Date().toISOString()},tabs={},old=preview?null:readCache();
   await Promise.all(Object.entries(TABS).map(async([k,tab])=>{const r=report[k]={tab,ok:false,count:0,warnings:[]};const warn=w=>r.warnings.push(w);
-    try{const res=await fetch("https://docs.google.com/spreadsheets/d/"+id+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(tab),{cache:"no-store"});
-      if(!res.ok)throw new Error("Could not open the "+tab+" tab (error "+res.status+"). Check the tab name.");const text=await res.text();if(/<html/i.test(text.slice(0,300)))throw new Error("The sheet is not shared as “Anyone with the link”.");
+    try{let res;try{res=await fetch("https://docs.google.com/spreadsheets/d/"+id+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(tab),{cache:"no-store"})}
+      catch(e){throw new Error("Couldn’t reach the sheet. Check it is shared as “Anyone with the link → Viewer”, and that you are online.")}
+      if(!res.ok)throw new Error("Couldn’t open the sheet (error "+res.status+"). Check the link and the sharing setting.");const text=await res.text();if(/<html/i.test(text.slice(0,300)))throw new Error("The sheet isn’t shared. In Google Sheets: Share → General access → Anyone with the link → Viewer.");
+      const head=(parseCSV(text)[0]||[]).map(key);const missing=REQUIRED[k].filter(h=>!head.includes(h));
+      if(missing.length)throw new Error("Can’t find the “"+tab+"” tab. Check the tab is named exactly “"+tab+"” and its first row still has the column names.");
       const rows=records(text);
       if(k==="hours")tabs[k]=readHours(rows,warn);else if(k==="settings")tabs[k]=readSettings(rows,warn);else tabs[k]=rows.map(row=>READ[k](row,warn)).filter(Boolean);
       r.ok=true;r.count=Array.isArray(tabs[k])?tabs[k].length:rows.length}
     catch(e){r.error=e.message||String(e);if(old&&old.id===id&&old.tabs&&old.tabs[k]!=null)tabs[k]=old.tabs[k]}}));
   resolveSkills({services:tabs.services||defaults.services,artists:copy(tabs.artists||[])},report);
-  try{localStorage.setItem(CACHE_KEY,JSON.stringify({id,at:report.at,tabs}))}catch(e){}
-  window.dispatchEvent(new Event("salon-data-changed"));return report}
+  // What customers would see: sheet tabs that read cleanly, built-in content for the rest.
+  const data=copy(defaults);for(const k in TABS)if(tabs[k]!=null)data[k]=copy(tabs[k]);resolveSkills(data);report.data=data;
+  if(!preview){try{localStorage.setItem(CACHE_KEY,JSON.stringify({id,at:report.at,tabs}))}catch(e){}window.dispatchEvent(new Event("salon-data-changed"))}
+  return report}
 
-window.SalonData={load,refresh,dayInfo,clock,escapeHTML,localDate,money,sheetUrl:SHEET_URL,tabs:TABS,defaults:copy(defaults)};
+window.SalonData={load,refresh,idFrom,dayInfo,clock,escapeHTML,localDate,money,sheetUrl:SHEET_URL,tabs:TABS,defaults:copy(defaults)};
 })();

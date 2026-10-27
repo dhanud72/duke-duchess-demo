@@ -9,15 +9,24 @@ h1{font-size:clamp(34px,6vw,52px);line-height:1;letter-spacing:-.05em;text-trans
 .steps{counter-reset:s;list-style:none;padding:0;margin:8px 0 0}.steps li{counter-increment:s;position:relative;padding:0 0 10px 38px}.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:#e2c365;font-weight:700;font-size:14px;display:grid;place-items:center}
 .muted{color:var(--muted);font-size:14px}.notice{background:#fff6e3;border:1px solid #f0d9a8;padding:14px 16px}
 footer{padding:30px 0 50px;color:var(--muted);font-size:14px}
+.linkform label{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 6px}
+.linkform input{width:100%;min-height:50px;border:1px solid #cfc8b8;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;background:#fff}.linkform input:focus{outline:2px solid #e2c365;outline-offset:1px}
+.btn{border-radius:999px;cursor:pointer}.btn:disabled{opacity:.5}
+.status{margin:12px 0 0;font-weight:600}.status.good{color:var(--ok)}.status.bad{color:var(--bad)}
+.row b{min-width:92px}
+.golive{margin-top:14px;padding:16px;border-radius:14px;background:#f1f8f3;border:1px solid #bfe0c9}.golive p{margin:0 0 10px}.golive textarea{width:100%;min-height:88px;border:1px solid #cfe3d5;border-radius:10px;padding:10px;font:inherit;font-size:14px;background:#fff}
+.branchtabs{display:flex;gap:8px;margin:12px 0 4px}.branchtabs button{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #cfc8b8;background:#fff;font-weight:700}.branchtabs button[aria-selected="true"]{background:var(--ink);color:#e2c365;border-color:var(--ink)}
+.pv h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:18px 0 6px}.pv ul{margin:0;padding-left:18px}.pv li{margin:3px 0}.pv .empty{color:var(--bad)}.pv .meta{color:var(--muted);font-size:14px}
+@media(max-width:600px){.card{padding:18px}.btns .btn{flex:1 1 100%}.row{flex-direction:column;gap:4px}}
 </style></head><body>
 <header><div class="wrap head"><a href="index.html" class="brand">new duke <span>&amp; duchess.</span></a><a class="back" href="index.html">← Website</a></div></header>
 <main class="wrap">
 <h1>Update your website.</h1>
 <p class="lead">Everything on the website comes from one Google Sheet. Change the sheet on your phone or computer, and every customer sees it the next time they open the site.</p>
 
-<section class="card"><h2>1. Your sheet</h2><div id="sheetState"></div><div class="btns"><a class="btn gold" id="openSheet" target="_blank" rel="noopener" hidden>Open the Google Sheet ↗</a><button class="btn" id="checkBtn" type="button">Check my sheet</button></div><div class="report" id="report" hidden></div></section>
+<section class="card"><h2>1. Your sheet</h2><div id="sheetState"></div><form class="linkform" id="linkForm"><label for="sheetLink">Google Sheet link</label><input id="sheetLink" type="url" inputmode="url" autocomplete="off" placeholder="Paste the link from Share → Copy link"><div class="btns"><button class="btn" id="checkBtn" type="submit">Check my sheet</button><a class="btn gold" id="openSheet" target="_blank" rel="noopener" hidden>Open the sheet ↗</a></div></form><p class="status" id="checkStatus" aria-live="polite"></p><div class="report" id="report" hidden></div><div class="golive" id="goLive" hidden></div></section><section class="card" id="previewCard" hidden><h2>What customers will see</h2><p class="muted">From the sheet you just checked. Tabs with a red mark show the built-in content instead.</p><div class="branchtabs" id="branchTabs" role="tablist"><button type="button" data-b="RR Nagar" aria-selected="true">R R Nagar</button><button type="button" data-b="Nagarabhavi" aria-selected="false">Nagarabhavi</button></div><div id="preview"></div></section>
 
-<section class="card"><h2>2. What each tab changes</h2><p class="muted">One row per item. In the <b>Branches</b> column write <code>R R Nagar</code>, <code>Nagarabhavi</code> or <code>Both</code>. To hide something without deleting it, write <code>no</code> in <b>Show</b>.</p>
+<section class="card"><h2>2. What each tab changes</h2><p class="muted">One row per item. Columns like Branches, Category, Show and In stock have a <b>dropdown</b>: tap the cell and pick. In the <b>Branches</b> column choose <code>R R Nagar</code>, <code>Nagarabhavi</code> or <code>Both</code>. To hide something without deleting it, write <code>no</code> in <b>Show</b>.</p>
 <div class="tabs">
 <div class="tab"><h3>Services</h3><ul><li>Name, Category (Hair, Skin, Nails or Bridal), Duration in minutes, Price as you want it shown (<code>₹350</code> or <code>₹2,999 onwards</code>).</li><li>Booking times use the duration, so keep it accurate.</li></ul></div>
 <div class="tab"><h3>Team</h3><ul><li>Name, Role, Experience, About, Branches.</li><li><b>Services</b>: the services this person does, written exactly as in the Services tab, separated by commas.</li><li><b>Photo link</b>: see “Adding photos” below.</li></ul></div>
