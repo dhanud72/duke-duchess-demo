@@ -1,8 +1,8 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0f11"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Duke &amp; Duchess"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="application-name" content="Duke &amp; Duchess"><meta name="msapplication-TileColor" content="#0b0f11">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1215"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Duke &amp; Duchess"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="application-name" content="Duke &amp; Duchess"><meta name="msapplication-TileColor" content="#0b0f11">
 <title>New Duke & Duchess | Hair, skin & nails in Bengaluru</title>
 <meta name="description" content="Premium hair, colour, grooming, skin and nail care for men, women and kids in RR Nagar and Nagarabhavi, Bengaluru. Explore services and preview appointment booking.">
 <meta property="og:type" content="website"><meta property="og:title" content="New Duke & Duchess | Hair, skin & nails in Bengaluru"><meta property="og:description" content="Premium hair, colour, grooming, skin and nail care for men, women and kids in RR Nagar and Nagarabhavi, Bengaluru."><meta property="og:image" content="https://dhanud72.github.io/duke-duchess-demo/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
@@ -294,6 +294,38 @@ header.nav .brand .brandtext{color:#fff}header.nav .brand .brandtext span{color:
 @media(min-width:701px) and (max-width:1120px){header.nav .insta{display:none}header.nav .brand{font-size:21px;gap:10px}header.nav .brand img{width:44px;height:44px}header.nav .navlinks{gap:16px;font-size:12px;letter-spacing:.04em}header.nav .navright{gap:8px}header.nav .navright .btn{padding:0 16px;min-height:46px;font-size:12px}}
 @media(min-width:701px) and (max-width:820px){header.nav .brandtext{display:none}header.nav .navlinks{gap:20px;font-size:13px}}
 @media(max-width:440px){.halftext i .long{display:none}.halftext i{white-space:nowrap;padding:8px 14px}}
+
+/* ── iPhone pass: readable text, 44px tap targets, smallest screens ─────── */
+@media(max-width:700px){.stripinner{font-size:11px;letter-spacing:.1em}.halftext small{font-size:10px}}
+.wiztop .linkbtn{display:inline-block;padding:12px 2px;margin:-12px 0}
+.product h3 button{display:inline-block;padding:8px 0;margin:-8px 0}
+.productbottom>button,.productbottom .qty button{min-height:44px}.productbottom .qty button{min-width:40px}
+.locactions a{display:inline-flex;align-items:center;min-height:44px}
+.chips button,.slots button{min-height:44px}
+.linkbtn{padding-top:10px;padding-bottom:10px}
+@media(max-height:700px){.halftext{bottom:max(10vh,84px)}}
+@media(max-width:350px){header.nav .brandtext{display:none}}
+@media(max-width:380px){.wizfoot{flex-wrap:wrap}.wizfoot .btn{flex:1 1 100%}.bookingcard .wizfoot .btn.outline{order:2;flex:1 1 100%}}
+.location .yourbranch{font-size:10.5px}
+
+/* ── Phones held sideways ─────────────────────────────────────────────────── */
+@media(max-height:520px){.splitlogo{min-width:0!important;width:min(22vw,36vh)!important}
+  header.nav{height:60px}header.nav .brand img{width:38px;height:38px}header.nav .navright .btn{min-height:40px}header.nav .bag,header.nav .insta{width:40px;height:40px}html{scroll-padding-top:68px}}
+
+/* ── App feel ─────────────────────────────────────────────────────────────── */
+*{-webkit-tap-highlight-color:transparent}
+button,a,.svccard,.daybtn,.pro{touch-action:manipulation}
+.btn,.svccard,.daybtn,.slots button,.chips button,.pro,.qty button,.bagbar,.bookfab,.locactions a,.half{transition:transform .12s ease,background-color .2s,border-color .2s,color .2s,box-shadow .2s}
+.btn:active,.svccard:active,.daybtn:not(:disabled):active,.slots button:active,.chips button:active,.pro:active,.locactions a:active,.bagbar:active,.bookfab:active{transform:scale(.97)}
+.bagbar.show:active{transform:translate(-50%,0) scale(.98)}
+button,.btn,.chips,.wizsteps{-webkit-user-select:none;user-select:none}
+@media(display-mode:standalone){html,body{overscroll-behavior-y:none}}
+/* iPhone notch and home indicator */
+.container{padding-left:max(28px,env(safe-area-inset-left));padding-right:max(28px,env(safe-area-inset-right))}
+@media(max-width:700px){.container{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}}
+.bookfab{bottom:calc(14px + env(safe-area-inset-bottom))}.bagbar{bottom:calc(16px + env(safe-area-inset-bottom))}
+.drawer{padding-bottom:calc(26px + env(safe-area-inset-bottom))}.toast{bottom:calc(28px + env(safe-area-inset-bottom))}
+.halftext{padding-left:max(3vw,env(safe-area-inset-left));padding-right:max(3vw,env(safe-area-inset-right))}
 </style>
 </head>
 <body>
