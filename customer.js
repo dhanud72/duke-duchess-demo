@@ -125,7 +125,7 @@ function updateCart(){const lines=bagLines(),count=lines.reduce((n,l)=>n+l.qty,0
   $("bagCount").textContent=count;$("bagCount").hidden=!count;
   $("cartItems").innerHTML=lines.length?lines.map(l=>'<div class="cartitem"><div><h3>'+H(l.p.name)+'</h3><p>'+(l.p.amount?money(l.p.amount)+" each":"Price at salon")+(l.p.inStock===false?" · now out of stock":"")+'</p><button type="button" class="linkbtn" data-qty="'+H(l.p.id)+'" data-set="0">Remove</button></div><div class="cartright">'+qtyControl(l.p.id,l.qty,"small")+'<strong>'+(l.p.amount?money(l.p.amount*l.qty):"—")+'</strong></div></div>').join(""):'<p class="empty">Your bag is empty. Add products from “Take it home” to reserve them for pickup.</p>';
   $("cartTotal").textContent=totalText;$("cartTotal2").textContent=totalText;$("cartfoot").hidden=!lines.length;
-  $("bagBarText").textContent=count+(count===1?" item":" items")+(total?" · "+money(total):"");
+  $("tabBadge").textContent=count;$("tabBadge").hidden=!count;$("bagBarText").textContent=count+(count===1?" item":" items")+(total?" · "+money(total):"");
   const showBar=count>0&&!$("drawer").classList.contains("show");$("bagBar").hidden=!count;$("bagBar").classList.toggle("show",showBar);document.body.classList.toggle("hasbag",count>0)}
 function orderMessage(){const lines=bagLines(),total=lines.reduce((n,l)=>n+(l.p.amount||0)*l.qty,0),b=$("pickupBranch").value;
   return ["Hello New Duke & Duchess ("+branchLabel(b)+"), I'd like to reserve these products for pickup:",""]
@@ -192,6 +192,10 @@ function askBranch(){$("branchDialog").scrollIntoView({behavior:"smooth"})}
 $("branchDialog").addEventListener("click",e=>{const b=e.target.closest("[data-pick-branch]");if(b){applyBranch(b.dataset.pickBranch);$("site").scrollIntoView({behavior:"smooth"})}});
 document.querySelector("header .brand").addEventListener("click",e=>{e.preventDefault();askBranch()});
 
+// Bottom tab bar: highlight the section on screen; Home goes back to the split screen.
+const tabs=[...document.querySelectorAll("#tabbar [data-tab]")];const tabSeen=new Map();
+const tabWatch=new IntersectionObserver(es=>{es.forEach(x=>tabSeen.set(x.target.id,x.isIntersecting));const cur=tabs.map(t=>t.dataset.tab).filter(id=>tabSeen.get(id)).pop();tabs.forEach(t=>t.classList.toggle("on",t.dataset.tab===cur));},{rootMargin:"-45% 0px -50% 0px"});
+tabs.forEach(t=>{tabWatch.observe($(t.dataset.tab));t.addEventListener("click",e=>{e.preventDefault();$(t.dataset.tab).scrollIntoView({behavior:"smooth"})})});
 // The sticky Book button shows on phones only while neither the split screen nor the booking form is on screen.
 const seen=new Set();const watch=new IntersectionObserver(es=>{es.forEach(x=>x.isIntersecting?seen.add(x.target.id):seen.delete(x.target.id));$("bookFab").classList.toggle("show",!seen.size)});watch.observe($("branchDialog"));watch.observe($("booking"));
 
