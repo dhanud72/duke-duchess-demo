@@ -194,3 +194,10 @@ footer .contactphone{border-color:#D8BFA9;color:#F5EDE4}
  header.nav .brand{font-size:14px;gap:6px}header.nav .brand img{width:32px;height:32px}
  header.nav .navright{gap:5px}header.nav .bag,header.nav .bag.acct{width:36px;height:36px}
 }
+
+/* contrast: darker accents and muted text on the nude bands, legible disabled wizard steps */
+#services,#shop,#locations{--fg2:#5E5046;--acc:#6E5440}
+.artist-section,#plans{--fg2:#5E5046;--acc:#6E5440}
+.wiztop p,.wizhint,.svccard span{color:#5E5046}
+.wizsteps button{color:#6E6256}.wizsteps button:disabled{opacity:1;color:#7A6C60}.wizsteps b{background:#E3D5C6;color:#5E5046}
+.optional{color:#6E6256}
