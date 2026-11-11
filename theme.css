@@ -1,0 +1,186 @@
+/* SOFT GLASS theme for the home page (loaded after index.html's own <style>).
+   Style reference: warm neutral frosted glass (sand, taupe, cocoa, bronze, one tiny orange accent).
+   Rules: glass only where there is something behind it to frost (gradient + pearl spheres, or a real photo);
+   thin white edge, very light shadow (never heavy under glass); light serif headings; bronze gradient pill buttons. */
+:root{--sand-1:#F8F1E7;--sand-2:#EFE3D2;--sand-3:#E4D3BD;--taupe:#C9B6A0;--mocha:#3B2A20;--mocha-2:#6B5A4C;
+ --bronze-1:#D6AB80;--bronze-2:#A06F49;--bronze-3:#7E5334;--orange:#E0842A;
+ --glass:rgba(255,255,255,.42);--glass-strong:rgba(255,255,255,.62);--glass-edge:rgba(255,255,255,.72);--glass-shadow:0 10px 34px rgba(110,80,50,.10);
+ --ink:#3B2A20;--muted:#6B5A4C;--cream:#F8F1E7;--paper:#fff;--rose:#A06F49;--line:rgba(160,111,73,.22);--dark:#3B2A20;--gold:#A06F49;--glow:#D6AB80;
+ --serif:"Cormorant Garamond","Playfair Display",Georgia,serif;--bronze:linear-gradient(135deg,#D6AB80 0%,#A06F49 100%)}
+body{background:linear-gradient(180deg,#F8F1E7,#EFE3D2);color:var(--mocha)}
+
+/* Headings: light serif */
+.hero h1,.section h2,.locations h2,.reality-head h2,.bookingcopy h2,.photobg h2,.wiztop h3,.cardtop h3,.drawertop h2,
+.service h3,.menuitem h3,.artistbody h3,.productbody h3,.offercard h3,.location h3,.pvbody h3,.nd-card h3,.nd-dialog h2{
+ font-family:var(--serif)!important;font-weight:500!important;text-transform:none!important;letter-spacing:-.015em!important}
+.hero h1{font-size:clamp(52px,6vw,88px);line-height:.98;color:var(--mocha)}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.section h2,.locations h2,.reality-head h2,.bookingcopy h2{font-size:clamp(36px,4.2vw,56px)!important;line-height:1.02!important}
+.service h3{font-size:32px!important;line-height:1}.menuitem h3,.artistbody h3,.productbody h3,.offercard h3,.location h3{font-size:25px!important;line-height:1.1}
+.wiztop h3{font-size:32px!important}
+.menuitem h3:after{content:none}
+.eyebrow{font-weight:600;letter-spacing:.2em;color:var(--mocha-2)}
+.eyebrow:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);margin-right:10px;vertical-align:1px}
+
+/* Glass recipe */
+.menuitem,.artistcard,.product,.location,.installcard,.offercard,.nd-card,.nd-rev,.nd-faq details,.bookingnote,.photobg .menuitem,.photobg .artistcard,.photobg .product,.photobg .location,.photobg .installcard,.photobg .offercard{
+ background:var(--glass)!important;-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);
+ border:1px solid var(--glass-edge)!important;box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,.8)!important;border-radius:26px!important;color:var(--mocha)}
+.artistbody,.productbody{background:transparent!important}
+.menuitem:hover,.product:hover,.artistcard:hover{box-shadow:0 14px 40px rgba(110,80,50,.16),inset 0 1px 0 rgba(255,255,255,.9)!important}
+
+/* Top bar, header (frosted light) */
+.announce{background:linear-gradient(90deg,#CFA27A,#E5C7A3 50%,#CFA27A);color:var(--mocha)}
+header.nav:before{background:rgba(248,241,231,.66);-webkit-backdrop-filter:blur(20px) saturate(1.4);backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid rgba(255,255,255,.75);box-shadow:0 8px 28px rgba(110,80,50,.10)}
+header.nav .brand,header.nav .brand .brandtext{color:var(--mocha)}header.nav .brand .brandtext span{color:var(--bronze-2)}
+header.nav .navlinks a{color:var(--mocha);font-weight:500}header.nav .navlinks a:hover{color:var(--bronze-2)}header.nav .navlinks a:after{background:var(--bronze-2)}
+header.nav .bag,header.nav .insta{color:var(--mocha);background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.8)}
+header.nav .bag.acct.on{color:var(--bronze-3);border-color:var(--bronze-1)}
+header.nav .bag b{background:var(--bronze-2);color:#fff}
+header.nav .menu{color:var(--mocha)}
+header.nav .navright .btn{background:var(--bronze);border:0;color:#fff;border-radius:999px;letter-spacing:.1em;box-shadow:0 6px 18px rgba(160,111,73,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+header.nav .navright .btn:hover{filter:brightness(1.08)}
+.mobilemenu{background:rgba(248,241,231,.96)}
+
+/* Buttons: bronze gradient pill with soft glow */
+.btn{background:var(--bronze);color:#fff;border:0;border-radius:999px;letter-spacing:.1em;font-weight:600;box-shadow:0 8px 22px rgba(160,111,73,.32),inset 0 1px 0 rgba(255,255,255,.45)}
+.btn:hover{background:var(--bronze);filter:brightness(1.08);box-shadow:0 10px 28px rgba(160,111,73,.42),inset 0 1px 0 rgba(255,255,255,.5);color:#fff}
+.btn:after{display:none}
+.btn.outline,.booking .btn.outline{background:var(--glass-strong);color:var(--mocha);border:1px solid var(--glass-edge);box-shadow:none}
+.btn.outline:hover{background:#fff;color:var(--mocha)}
+.btn:disabled{opacity:.4}
+.linkbtn,.locactions a{color:var(--bronze-3)}
+.locactions a{border-radius:999px;border:1px solid rgba(160,111,73,.35);background:rgba(255,255,255,.4)}.locactions a:hover{background:var(--bronze);color:#fff;border-color:transparent}
+
+/* Hero: the real photo full-bleed with a frosted card on it */
+.hero{position:relative;display:flex;align-items:center;min-height:min(780px,94vh);background:#cdb9a2;overflow:hidden;isolation:isolate;grid-template-columns:none}
+.heroPhoto{position:absolute;inset:0;height:auto;z-index:-2}.heroPhoto img{width:100%;height:100%;object-fit:cover}
+.hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(248,241,231,.50) 0%,rgba(248,241,231,.12) 55%,rgba(248,241,231,0) 100%)}
+.hero .container{position:relative;max-width:none;width:min(620px,calc(100% - 56px));margin:56px max(28px,calc((100vw - 1260px)/2 + 28px));padding:42px 40px;border-radius:32px;
+ background:rgba(255,255,255,.40);-webkit-backdrop-filter:blur(22px) saturate(1.35);backdrop-filter:blur(22px) saturate(1.35);border:1px solid var(--glass-edge);box-shadow:0 18px 50px rgba(90,60,35,.16),inset 0 1px 0 rgba(255,255,255,.85);display:flex;flex-direction:column;justify-content:center}
+.hero p{color:var(--mocha-2);max-width:480px;font-size:17px}
+.hero .eyebrow{color:var(--mocha-2)}
+.hero .btn.light{background:var(--bronze);color:#fff;border:0}
+.heroactions .btn:not(.light){background:var(--glass-strong)!important;border:1px solid var(--glass-edge)!important;color:var(--mocha)!important;box-shadow:none}
+.heroactions .btn:not(.light):hover{background:#fff!important}
+.photoTag{position:absolute;bottom:22px;right:22px;background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--glass-edge);color:var(--mocha);border-radius:999px;letter-spacing:.14em}
+.gchips{display:flex;flex-wrap:wrap;gap:10px;margin:2px 0 22px}
+.gchips span{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 9px;border-radius:18px;background:rgba(255,255,255,.45);border:1px solid var(--glass-edge);font-size:13px;line-height:1.25}
+.gchips i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--bronze);color:#fff;box-shadow:0 4px 10px rgba(160,111,73,.35);flex:none}
+.gchips i svg{width:17px;height:17px}.gchips b{display:block;font-weight:600;color:var(--mocha)}.gchips small{color:var(--mocha-2)}
+.strip{background:linear-gradient(90deg,#CFA27A,#E2C29D 50%,#CFA27A)}.stripinner{color:var(--mocha);font-weight:600;letter-spacing:.16em}.stripinner i{color:#fff}
+
+/* Offers carousel */
+.nd-carousel{background:transparent;padding:34px 0 16px}
+.nd-slide{border-radius:30px;box-shadow:0 14px 40px rgba(90,60,35,.16);border:1px solid rgba(255,255,255,.6)}
+.nd-slide:before{background:linear-gradient(90deg,rgba(59,42,32,.80) 0%,rgba(59,42,32,.45) 55%,rgba(59,42,32,.05) 100%)}
+.nd-slide small{color:#F2D3AE}.nd-slide h3{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,42px);letter-spacing:-.01em}
+.nd-slide .btn{background:rgba(255,255,255,.88);color:var(--mocha);box-shadow:none}
+.nd-dots button{background:rgba(59,42,32,.22)}.nd-dots button.on{background:var(--bronze-2)}
+
+/* Section backdrops: warm gradient + pearl spheres for the glass to frost */
+.photobg{color:var(--mocha);background:none}
+.photobg:before{background:var(--bg,#F8F1E7)!important;opacity:1!important;filter:none!important}
+.photobg:after{display:block!important;background:
+  radial-gradient(circle at 38% 34%,#fffaf2 0,#f3e6d4 22px,#dcc6aa 58px,rgba(220,198,170,0) 62px) no-repeat 4% 12%/200px 200px,
+  radial-gradient(circle at 38% 34%,#fffaf2 0,#f5e3cb 18px,#e0a86a 46px,rgba(224,168,106,0) 50px) no-repeat 96% 78%/150px 150px,
+  radial-gradient(circle at 38% 34%,#fffaf2 0,#f0e1ce 14px,#d5bea1 34px,rgba(213,190,161,0) 38px) no-repeat 52% 96%/110px 110px,
+  radial-gradient(ellipse at 90% 8%,rgba(214,171,128,.28),transparent 55%)!important;
+  opacity:1!important;filter:none!important}
+.photobg h2,.photobg .reality-head h2{color:var(--mocha)}
+.photobg .sectionintro,.photobg .reality-head p{color:var(--mocha-2)}
+.photobg .eyebrow{color:var(--mocha-2)}
+.photobg .sectionhead,.photobg .reality-head{border-top:1px solid rgba(160,111,73,.28)}
+.photobg .chips button{background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--glass-edge);color:var(--mocha)}
+.photobg #installBtn{background:var(--bronze);border:0;color:#fff}.photobg .installed{color:#3f7a4a}
+.photobg .photocredit{color:var(--mocha-2)}
+#services{--bg:linear-gradient(180deg,#F8F1E7,#F1E6D6)}.menu-section{--bg:linear-gradient(180deg,#EFE3D2,#E7D8C4)}.artist-section{--bg:linear-gradient(180deg,#F5ECDF,#EEE0CD)}
+#offers{--bg:linear-gradient(180deg,#EFE3D2,#E8D6BF)}#shop{--bg:linear-gradient(180deg,#F8F1E7,#F0E4D3)}#reviews{--bg:linear-gradient(180deg,#EDE0CE,#E4D2BB)}#plans{--bg:linear-gradient(180deg,#F5ECDF,#EBDCC8)}
+#locations{--bg:linear-gradient(180deg,#EFE3D2,#E4D3BD)}#install{--bg:linear-gradient(180deg,#F8F1E7,#EFE3D2)}
+/* Gallery: deep cocoa band so the real photos glow */
+#inside{--bg:linear-gradient(180deg,#4A362A,#332419);color:#fff}#inside:after{display:none!important}
+#inside h2,#inside .reality-head h2{color:#fff}#inside .reality-head p,#inside .photocredit{color:#E3D3C0}#inside .eyebrow{color:#E9D3BA}#inside .reality-head{border-top-color:rgba(255,255,255,.25)}
+.reality-grid figure{border-radius:24px;border:1px solid rgba(255,255,255,.25)}
+.reality-grid figcaption{letter-spacing:.18em;font-weight:600;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:linear-gradient(0deg,rgba(59,42,32,.7),transparent)}
+
+/* Booking */
+.booking{background:linear-gradient(135deg,#EFE3D2,#E2CFB8);color:var(--mocha);isolation:isolate}.booking:before{display:block!important;content:"";position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(circle at 38% 34%,#fffaf2 0,#f3e6d4 24px,#dcc6aa 66px,rgba(220,198,170,0) 70px) no-repeat 3% 70%/220px 220px,
+  radial-gradient(circle at 38% 34%,#fffaf2 0,#f5e3cb 18px,#e0a86a 48px,rgba(224,168,106,0) 52px) no-repeat 46% 8%/160px 160px,
+  radial-gradient(ellipse at 100% 100%,rgba(214,171,128,.35),transparent 55%)!important;opacity:1!important;filter:none!important}
+.booking:after{display:none}
+.bookingcopy h2{color:var(--mocha)}.bookingcopy p{color:var(--mocha-2)}.booking .eyebrow{color:var(--mocha-2)}
+.bookstatus{background:var(--glass-strong);border:1px solid var(--glass-edge);color:var(--bronze-3)!important;border-radius:999px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.perks li{color:var(--mocha)}.perks li:before{color:var(--bronze-2)}
+.booking .bookingnote a{color:var(--bronze-3)}
+.booking .bookingcard,.bookingcard{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(24px) saturate(1.35);backdrop-filter:blur(24px) saturate(1.35);border:1px solid var(--glass-edge);border-radius:32px;box-shadow:0 22px 60px rgba(90,60,35,.16),inset 0 1px 0 rgba(255,255,255,.9)}
+.chips button,.slots button,.daybtn,.svccard{border-radius:16px;background:rgba(255,255,255,.7);border:1px solid rgba(160,111,73,.20)}
+.chips button{border-radius:999px}
+.chips button[aria-selected="true"],.slots button.sel,.daybtn.sel,.photobg .chips button[aria-selected="true"]{background:var(--bronze);border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(160,111,73,.35)}
+.daybtn.sel small{color:#fff}
+.wizsteps button.current{border-color:var(--bronze-2)}.wizsteps button.current b{background:var(--bronze);color:#fff}
+.wizsteps button.done{border-color:var(--bronze-1)}.wizsteps button.done b{background:var(--bronze-1);color:#fff}
+.svccard.sel{border-color:var(--bronze-2);box-shadow:inset 0 0 0 1px var(--bronze-2),0 8px 22px rgba(160,111,73,.22);background:#fff}.svccard.sel b:after{color:var(--bronze-2)}
+.pro.sel i{border-color:var(--bronze-2);box-shadow:0 0 0 2px var(--bronze-1)}
+.summary{background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px rgba(160,111,73,.25);border-radius:18px}
+.field input,.field select,.cartfoot input,.cartfoot select{border-radius:16px;background:rgba(255,255,255,.8);border-color:rgba(160,111,73,.25)}
+.field input:focus,.field select:focus{box-shadow:0 0 0 2px var(--bronze-1)}
+.pill{background:rgba(255,255,255,.6);color:var(--bronze-3)}
+
+/* Service cards: photo with a frosted label */
+.service{border-radius:28px;border:1px solid rgba(255,255,255,.55);box-shadow:0 14px 40px rgba(90,60,35,.14)}
+.service:before{background:linear-gradient(0deg,rgba(59,42,32,.62) 0%,rgba(59,42,32,.10) 55%,transparent 90%)}
+.servicecontent{background:rgba(255,255,255,.20);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.45);border-radius:22px;padding:16px 18px;width:100%}
+.service button{color:#fff;border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.18);border-radius:999px;letter-spacing:.12em}
+.artskills span{background:rgba(255,255,255,.6);color:var(--bronze-3);border-radius:999px;border:1px solid rgba(160,111,73,.18)}
+.location.chosen{border-color:var(--bronze-1)!important;box-shadow:0 0 0 2px var(--bronze-1),0 14px 40px rgba(160,111,73,.22)!important}
+.location .yourbranch{background:var(--bronze);color:#fff;border-radius:999px}
+.location .status{border-radius:999px}
+.installcard.yours{border-color:var(--bronze-1)!important}
+
+/* Products, bag, mobile chrome */
+.qty{border:1px solid rgba(160,111,73,.35);border-radius:999px;background:rgba(255,255,255,.6)}
+.productbottom>button:not([disabled]){border:1px solid rgba(160,111,73,.45);color:var(--mocha);border-radius:999px;background:rgba(255,255,255,.5)}.productbottom>button:not([disabled]):hover{background:var(--bronze);color:#fff;border-color:transparent}
+.productimage{border-radius:22px 22px 0 0}
+.bookfab,.bagbar{background:rgba(59,42,32,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#F2D3AE;box-shadow:0 0 0 1px rgba(255,255,255,.25),0 12px 30px rgba(59,42,32,.35)}
+.tabbar{background:rgba(248,241,231,.72);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);border-top:1px solid rgba(255,255,255,.8)}
+.tabbar a{color:var(--mocha-2)}.tabbar a.on{color:var(--bronze-3)}.tabbar a.on:after{background:var(--bronze-2)}
+.tabbar .tabbook{color:var(--bronze-3)}
+.tabbar .tabbook i{background:var(--bronze);color:#fff;box-shadow:0 0 0 5px rgba(248,241,231,.9),0 10px 24px rgba(160,111,73,.45)}
+.tabbadge{background:var(--bronze-2);color:#fff}
+.newtag{background:var(--bronze);color:#fff}
+.toast{background:rgba(59,42,32,.94);color:#F2D3AE;border-radius:999px;box-shadow:0 0 0 1px rgba(255,255,255,.25),0 10px 30px rgba(59,42,32,.4)}
+.drawer{background:rgba(250,244,236,.94);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-radius:28px 0 0 28px}
+.pview{border-radius:28px;background:rgba(250,244,236,.96)}
+
+/* Footer */
+footer{background:linear-gradient(180deg,#3B2A20,#2A1E17)}
+
+/* Reviews, passes, FAQ */
+#reviews .nd-revform .btn,#plans .btn{background:var(--bronze);border:0;color:#fff}
+#plans .nd-giftcard{background:linear-gradient(150deg,rgba(160,111,73,.92),rgba(126,83,52,.92))!important;color:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+#plans .nd-giftcard h3,#plans .nd-giftcard p{color:#fff}#plans .nd-giftcard small{color:#F2D3AE}
+#plans .nd-giftcard .btn{background:rgba(255,255,255,.9);color:var(--mocha);box-shadow:none}
+.nd-rev .st{color:var(--orange)}
+.nd-faq summary{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--mocha)}.nd-faq summary:after{color:var(--bronze-2)}
+.nd-faq p{color:var(--mocha-2)}
+#faq{position:relative}
+
+@media(max-width:700px){
+ .hero{min-height:680px;align-items:flex-end}
+ .hero:before{background:linear-gradient(0deg,rgba(248,241,231,.5),rgba(248,241,231,0) 60%)}
+ .hero .container{margin:0 14px 18px;width:calc(100% - 28px);padding:24px 22px;border-radius:26px}
+ .hero h1{font-size:46px}.hero p{font-size:15px}
+ .heroPhoto{height:auto}
+ .gchips{margin-bottom:16px}.gchips span{padding:7px 12px 7px 7px}
+ .section h2,.locations h2,.reality-head h2,.bookingcopy h2{font-size:36px!important}
+ .photoTag{display:none}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ .menuitem,.artistcard,.product,.location,.installcard,.offercard,.nd-card,.nd-rev,.nd-faq details,.hero .container,.bookingcard{background:rgba(255,255,255,.82)!important}
+}
+
+/* fixes: legacy light text inside the booking note; keep spheres clear of headings */
+.booking .bookingnote,.booking .bookingnote strong,.booking .bookingnote li{color:var(--mocha)!important}
+.photobg:after{background-position:-2% 4%,96% 78%,52% 96%,0 0!important}
+@media(max-width:700px){.booking:before{background-position:112% 1%,-12% 99%,0 0!important}}
