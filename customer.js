@@ -1,6 +1,6 @@
 const $=id=>document.getElementById(id);
 const H=SalonData.escapeHTML,money=SalonData.money,clock=SalonData.clock,localDate=SalonData.localDate;
-let data=SalonData.load();
+let data=NDD_API.applyCatalog(SalonData.load());
 const BRANCHES={
  "RR Nagar":{key:"rr",label:"R R Nagar",name:"Rajarajeshwari Nagar",eyebrow:"Inside Rajarajeshwari Nagar",title:"Our Rajarajeshwari Nagar studio.",intro:"Round LED mirrors, black styling chairs and a green skin-care suite on Krishna Garden Main Rd. Every photo here is the real salon.",gallery:[["01 / Styling floor","Black styling chairs and round LED mirrors"],["02 / Stone-wall studio","Styling stations beside a stone-effect wall"],["03 / Treatment room","Green treatment room with a facial chair"],["04 / Styling corner","Styling chairs in the glass-walled corner"],["05 / Find us","New Duke and Duchess shopfront with the red sign"]]},
  "Nagarabhavi":{key:"nb",label:"Nagarabhavi",name:"Nagarabhavi",eyebrow:"Inside Nagarabhavi",title:"Our Nagarabhavi studio.",intro:"Gold-framed mirrors, quiet treatment rooms and a pedicure lounge on Muddenapalya Main Rd. Every photo here is the real salon.",gallery:[["01 / Reception","Reception desk with the Duke and Duchess wall mural"],["02 / Styling floor","Styling chairs and gold-framed mirrors"],["03 / Care shelf","Product shelving beside the studio mural"],["04 / Treatment room","Private treatment room"],["05 / Pedicure lounge","Pedicure and manicure lounge"]]}};
@@ -25,11 +25,12 @@ const prettyDate=iso=>new Date(iso+"T12:00:00").toLocaleDateString("en-IN",{week
 const addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return localDate(d)};
 const nowMinutes=()=>{const d=new Date();return d.getHours()*60+d.getMinutes()};
 const cleanPhone=v=>{const d=v.replace(/\D/g,"");return d.length>=10?d.slice(-10):""};
+const priceText=s=>{const p=SalonData.priceFor(s,currentBranch);return p?money(p):(s.price||"Price on request")};
 const avatar=a=>a.photo?'<img src="'+H(a.photo)+'" alt="">':H(a.name.charAt(0));
 
 // ── Branch page: photos, gallery, team heading ────────────────────────────
 function renderBranchPage(){const b=BRANCHES[currentBranch],k=b.key;$("heroImage").src=data.photos[k+"Hero"]||"";$("heroImage").alt="Inside New Duke and Duchess, "+b.name;$("heroTag").textContent=b.name.toUpperCase()+" STUDIO";$("galleryEyebrow").textContent=b.eyebrow;$("galleryTitle").textContent=b.title;$("galleryIntro").textContent=b.intro;$("galleryGrid").innerHTML=b.gallery.map(([cap,alt],i)=>{const src=data.photos[k+"G"+(i+1)];return src?'<figure'+(i?'':' class="large"')+'><img loading="lazy" src="'+H(src)+'" alt="'+H(alt)+'"><figcaption>'+H(cap.toUpperCase())+'</figcaption></figure>':""}).join("");$("teamTitle").textContent="The "+b.name+" team.";for(const [key,selector] of Object.entries({Hair:".service.one",Skin:".service.two",Nails:".service.three",More:".service.four"})){const src=data.photos[k+key];document.querySelector(selector).style.backgroundImage=src?'url("'+src.replace(/"/g,"%22")+'")':"none"}
-  const bg=data.photos[k+"Hero"];$("booking").style.setProperty("--bookbg",bg?'url("'+bg.replace(/"/g,"%22")+'")':"none");
+  const bg=data.photos[k+"B9"];$("booking").style.setProperty("--bookbg",bg?'url("'+bg.replace(/"/g,"%22")+'")':"none");
   document.querySelectorAll("[data-bg]").forEach(s=>{const src=data.photos[k+s.dataset.bg];s.style.setProperty("--secbg",src?'url("'+src.replace(/"/g,"%22")+'")':"none")})}
 
 // ── Opening hours and live status ──────────────────────────────────────────
@@ -56,7 +57,7 @@ const canDo=(a,id)=>(a.capabilities||[]).includes(id);
 function slotsFor(iso){if(iso<localDate()||iso>addDays(localDate(),data.settings.daysAhead))return {info:{outOfRange:true},slots:[]};const info=SalonData.dayInfo(data,currentBranch,iso);if(info.closed)return {info,slots:[]};
   const svc=svcOf(),dur=svc?svc.duration:data.settings.slot,step=data.settings.slot;
   let start=info.open;if(iso===localDate()){const earliest=nowMinutes()+data.settings.notice;while(start<earliest)start+=step}
-  const slots=[];for(let t=start;t+dur<=info.close;t+=step)slots.push(t);return {info,slots}}
+  const slots=[];for(let t=start;t+dur<=info.close;t+=step)if(!svc||NDD_API.freeSlot(currentBranch,svc.id,bk.artist,iso,t,dur))slots.push(t);return {info,slots}}
 function stepValid(n){if(n===1)return !!svcOf();if(n===2)return !!bk.date&&slotsFor(bk.date).slots.length>0;if(n===3)return bk.time!=null&&slotsFor(bk.date).slots.includes(bk.time);if(n===4)return !!$("name").value.trim()&&!!cleanPhone($("phone").value);return false}
 const reachable=n=>{for(let i=1;i<n;i++)if(!stepValid(i))return false;return true};
 // Drop choices that no longer fit after a branch, service or data change.
@@ -67,7 +68,7 @@ function tidyBooking(){if(bk.svc&&!services().some(s=>s.id===bk.svc))bk.svc=null
 function renderStep1(){const list=services(),cats=["All",...["Hair","Skin","Nails","More"].filter(c=>list.some(s=>s.category===c))];if(!cats.includes(bk.cat))bk.cat="All";
   $("catChips").innerHTML=cats.map(c=>'<button type="button" role="tab" data-cat="'+c+'" aria-selected="'+(c===bk.cat)+'">'+H(c==="All"?"All":CATEGORY_LABEL[c])+'</button>').join("");
   const shown=list.filter(s=>bk.cat==="All"||s.category===bk.cat);
-  $("svcGrid").innerHTML=shown.length?shown.map(s=>'<button type="button" class="svccard'+(s.id===bk.svc?" sel":"")+'" data-svc="'+H(s.id)+'" aria-pressed="'+(s.id===bk.svc)+'"><b>'+H(s.name)+'</b><span>'+H(s.duration)+' min · '+H(s.price||"Price on request")+'</span></button>').join(""):'<p class="wizhint">No services in this category at '+H(branchLabel(currentBranch))+'.</p>';
+  $("svcGrid").innerHTML=shown.length?shown.map(s=>'<button type="button" class="svccard'+(s.id===bk.svc?" sel":"")+'" data-svc="'+H(s.id)+'" aria-pressed="'+(s.id===bk.svc)+'"><b>'+H(s.name)+'</b><span>'+H(s.duration)+' min · '+H(priceText(s))+'</span></button>').join(""):'<p class="wizhint">No services in this category at '+H(branchLabel(currentBranch))+'.</p>';
   const pros=bk.svc?team().filter(a=>canDo(a,bk.svc)):[];$("prosBox").hidden=!bk.svc;
   $("prosRow").innerHTML='<button type="button" class="pro'+(bk.artist==="any"?" sel":"")+'" data-pro="any"><i>✦</i>Any available</button>'+pros.map(a=>'<button type="button" class="pro'+(bk.artist===a.id?" sel":"")+'" data-pro="'+H(a.id)+'"><i>'+avatar(a)+'</i>'+H(a.name.split(" ")[0])+'</button>').join("")}
 function renderStep2(){const today=localDate(),days=Math.min(data.settings.daysAhead,30),closed=[];let html="";
@@ -98,7 +99,7 @@ function bookingMessage(){const svc=svcOf(),who=bk.artist!=="any"?team().find(a=
     "• Name: "+$("name").value.trim(),"• Mobile: "+cleanPhone($("phone").value)].concat(notes?["• Notes: "+notes]:[]).concat(["","Please confirm my slot. Thank you!"]).join("\n")}
 
 // ── Services, team, offers ────────────────────────────────────────────────
-function renderServiceMenu(){const list=services();$("serviceMenu").innerHTML=list.length?list.map(s=>'<article class="menuitem"><div><small>'+H(CATEGORY_LABEL[s.category]||s.category)+' · '+H(s.duration)+' min</small><h3>'+H(s.name)+'</h3><p>'+H(s.price||"Price on request")+'</p></div><button class="btn small" data-book-service="'+H(s.id)+'">Book this ↗</button></article>').join(""):'<p>No services are listed for this branch yet.</p>'}
+function renderServiceMenu(){const list=services();$("serviceMenu").innerHTML=list.length?list.map(s=>'<article class="menuitem"><div><small>'+H(CATEGORY_LABEL[s.category]||s.category)+' · '+H(s.duration)+' min</small><h3>'+H(s.name)+'</h3><p>'+H(priceText(s))+'</p></div><button class="btn small" data-book-service="'+H(s.id)+'">Book this ↗</button></article>').join(""):'<p>No services are listed for this branch yet.</p>'}
 function renderArtists(){const list=$("artistCards"),members=team();list.innerHTML=members.length?members.map(a=>{const compatible=services().filter(s=>canDo(a,s.id));const pic=a.photo?'<img loading="lazy" src="'+H(a.photo)+'" alt="Photo of '+H(a.name)+'">':'<div class="artistavatar">'+H(a.name.charAt(0))+'</div>';return '<article class="artistcard"><div class="artistphoto">'+pic+'</div><div class="artistbody"><small>'+H(a.role)+(a.id.startsWith("sample-")?" · sample profile":"")+'</small><h3>'+H(a.name)+'</h3>'+(a.experience?'<p>'+H(a.experience)+'</p>':"")+(a.bio?'<p>'+H(a.bio)+'</p>':"")+'<div class="artskills">'+compatible.map(s=>'<span>'+H(s.name)+'</span>').join("")+'</div><select aria-label="Choose service with '+H(a.name)+'" data-artist-service="'+H(a.id)+'"><option value="">Choose a service</option>'+compatible.map(s=>'<option value="'+H(s.id)+'">'+H(s.name)+'</option>').join("")+'</select><button class="btn small" data-book-artist="'+H(a.id)+'">Book with '+H(a.name.split(" ")[0])+' ↗</button></div></article>'}).join(""):'<p>No team profiles are listed for this branch yet.</p>'}
 function renderOffers(){const offers=validOffers(),section=$("offers");section.hidden=!offers.length;$("offerCards").innerHTML=offers.map(o=>'<article class="offercard"><small>'+H(o.discount||"Offer")+'</small><h3>'+H(o.title)+'</h3><p>'+H(o.details||"")+'</p>'+(o.validUntil?'<span>Valid until '+H(prettyDate(o.validUntil))+'</span>':"")+'<button type="button" class="linkbtn" data-offer="'+H(o.id)+'">Book with this offer ↗</button></article>').join("")}
 
@@ -110,7 +111,7 @@ function renderProducts(){const all=products(),cats=["All",...new Set(all.map(p=
   $("shopChips").hidden=cats.length<3;$("shopChips").innerHTML=cats.map(c=>'<button type="button" role="tab" data-shopcat="'+H(c)+'" aria-selected="'+(c===shopCat)+'">'+H(c)+'</button>').join("");
   const list=all.filter(p=>shopCat==="All"||(p.category||"Salon care")===shopCat);
   $("productGrid").innerHTML=list.length?list.map((p,i)=>{const image=p.photo?'<img loading="lazy" src="'+H(p.photo)+'" alt="">':'<div class="bottle"></div>';
-  return '<article class="product'+(p.inStock===false?" soldout":"")+'"><button type="button" class="productimage '+["a","b","c"][i%3]+'" data-view-product="'+H(p.id)+'" aria-label="View '+H(p.name)+'">'+image+'</button><div class="productbody"><small>'+H(p.category||"Salon care")+(p.id.startsWith("sample-")?" · sample":"")+'</small><h3><button type="button" data-view-product="'+H(p.id)+'">'+H(p.name)+'</button></h3><p>'+H(p.description||"")+'</p><div class="productbottom"><span class="price">'+H(p.price||"Price at salon")+'</span>'+productAction(p)+'</div></div></article>'}).join(""):'<p>No products are listed for this branch yet.</p>';
+  return '<article class="product'+(p.inStock===false?" soldout":"")+'"><button type="button" class="productimage '+["a","b","c"][i%3]+'" data-view-product="'+H(p.id)+'" aria-label="View '+H(p.name)+'">'+image+'</button><div class="productbody"><small>'+H(p.category||"Salon care")+(p.id.startsWith("sample-")?" · sample":"")+(p.stock>0&&p.stock<=5?" · only "+p.stock+" left":"")+'</small><h3><button type="button" data-view-product="'+H(p.id)+'">'+H(p.name)+'</button></h3><p>'+H(p.description||"")+'</p><div class="productbottom"><span class="price">'+H(p.price||"Price at salon")+'</span>'+productAction(p)+'</div></div></article>'}).join(""):'<p>No products are listed for this branch yet.</p>';
   if(viewing)renderProductView()}
 function renderProductView(){const p=data.products.find(x=>x.id===viewing);if(!p){$("productView").close();return}
   $("pvImg").innerHTML=p.photo?'<img src="'+H(p.photo)+'" alt="'+H(p.name)+'">':"";
@@ -137,7 +138,7 @@ function toggleBag(open){if(open){if($("productView").open)$("productView").clos
 
 // ── Everything together ───────────────────────────────────────────────────
 function renderBusiness(){renderBranchPage();renderHours();renderAnnouncement();$("rrAddress").textContent=data.business.rrAddress;$("nagarabhaviAddress").textContent=data.business.nagarabhaviAddress;const phone=$("contactPhone"),n=phoneOf();phone.href="tel:"+n.replace(/[^+0-9]/g,"");phone.textContent="Call "+branchLabel(currentBranch)+": "+n;$("bookCall").href=phone.href}
-function render(){data=SalonData.load();renderServiceMenu();renderArtists();renderProducts();renderOffers();renderBusiness();renderWizard();updateCart()}
+function render(){data=NDD_API.applyCatalog(SalonData.load());renderServiceMenu();renderArtists();renderProducts();renderOffers();renderBusiness();renderWizard();updateCart();if(window.NDDX)NDDX.afterRender()}
 
 // Wizard
 $("wizSteps").addEventListener("click",e=>{const b=e.target.closest("[data-step]");if(b)goStep(+b.dataset.step)});
@@ -154,8 +155,7 @@ $("bookingForm").addEventListener("click",e=>{
 $("bookingForm").addEventListener("submit",e=>{e.preventDefault();$("formError").textContent="";
   for(let n=1;n<=3;n++)if(!stepValid(n)){goStep(n);$("formError").textContent=["","Please choose a service.","Please choose a day.","Please choose a time."][n];return}
   const name=$("name").value.trim(),phone=cleanPhone($("phone").value);if(!name||!phone){$("formError").textContent="Please enter your name and a 10-digit mobile number.";$(name?"phone":"name").focus();return}
-  store.set(ME_KEY,{name,phone});openWhatsApp(waLink(currentBranch,bookingMessage()));
-  showToast("WhatsApp is opening with your booking. Press send, and the salon will confirm your slot.")});
+  store.set(ME_KEY,{name,phone});NDDX.bookSubmit()});
 document.querySelectorAll("[data-category]").forEach(b=>b.addEventListener("click",()=>{bk.cat=b.dataset.category;bk.step=1;renderWizard();goToBooking()}));
 
 // Everything else that is clicked
@@ -176,8 +176,7 @@ $("toCheckout").addEventListener("click",()=>{if(bagLines().some(l=>l.p.inStock=
 $("backToBag").addEventListener("click",()=>checkoutStep(false));
 $("checkoutBtn").addEventListener("click",()=>{$("orderError").textContent="";const name=$("orderName").value.trim(),phone=cleanPhone($("orderPhone").value);
   if(!name||!phone){$("orderError").textContent="Please enter your name and a 10-digit mobile number.";$(name?"orderPhone":"orderName").focus();return}
-  store.set(ME_KEY,{name,phone});openWhatsApp(waLink($("pickupBranch").value,orderMessage()));
-  showToast("WhatsApp is opening with your order. Press send to reserve it.");$("clearBag").hidden=false});
+  store.set(ME_KEY,{name,phone});NDDX.orderSubmit()});
 $("clearBag").addEventListener("click",()=>{bag={};store.set(BAG_KEY,bag);renderProducts();updateCart();$("clearBag").hidden=true;toggleBag(false)});
 $("bagBtn").addEventListener("click",()=>toggleBag(true));$("bagBar").addEventListener("click",()=>toggleBag(true));$("closeBag").addEventListener("click",()=>toggleBag(false));$("overlay").addEventListener("click",()=>toggleBag(false));document.addEventListener("keydown",e=>{if(e.key==="Escape")toggleBag(false)});
 $("announceClose").addEventListener("click",()=>{try{sessionStorage.setItem("ndd-announce",data.settings.announcement)}catch(e){}$("announce").hidden=true});
@@ -200,7 +199,7 @@ tabs.forEach(t=>{tabWatch.observe($(t.dataset.tab));t.addEventListener("click",e
 const seen=new Set();const watch=new IntersectionObserver(es=>{es.forEach(x=>x.isIntersecting?seen.add(x.target.id):seen.delete(x.target.id));$("bookFab").classList.toggle("show",!seen.size)});watch.observe($("branchDialog"));watch.observe($("booking"));
 
 const me=store.get(ME_KEY,{});$("name").value=me.name||"";$("phone").value=me.phone||"";
-window.addEventListener("salon-data-changed",render);
+window.addEventListener("salon-data-changed",render);window.addEventListener("ndd-demo-changed",()=>{clearTimeout(window.__nddT);window.__nddT=setTimeout(render,60)});
 applyBranch(BRANCHES[storedBranch()]?storedBranch():"RR Nagar",!!BRANCHES[storedBranch()]);
 SalonData.refresh();
 setInterval(renderHours,60000);

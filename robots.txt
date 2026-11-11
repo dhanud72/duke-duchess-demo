@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /studio.html
+Disallow: /account.html
+Sitemap: https://dhanud72.github.io/duke-duchess-demo/sitemap.xml

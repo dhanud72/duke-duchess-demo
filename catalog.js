@@ -11,19 +11,19 @@ const DAYS=["sunday","monday","tuesday","wednesday","thursday","friday","saturda
 const everyDay=(open,close)=>DAYS.map(()=>({open,close}));
 const defaults={
   services:[
-    {id:"haircut",name:"Haircut & styling",category:"Hair",duration:60,price:"Price on request"},
-    {id:"colour",name:"Hair colouring & highlights",category:"Hair",duration:120,price:"Price on request"},
-    {id:"keratin",name:"Keratin treatment",category:"Hair",duration:120,price:"Price on request"},
-    {id:"beard",name:"Beard grooming",category:"Hair",duration:30,price:"Price on request"},
-    {id:"kids",name:"Kids haircut",category:"Hair",duration:30,price:"Price on request"},
-    {id:"hairspa",name:"Hair spa",category:"Hair",duration:60,price:"Price on request"},
-    {id:"facial",name:"Facial care",category:"Skin",duration:60,price:"Price on request"},
-    {id:"skincare",name:"Skin consultation",category:"Skin",duration:30,price:"Price on request"},
-    {id:"manicure",name:"Manicure",category:"Nails",duration:45,price:"Price on request"},
-    {id:"pedicure",name:"Pedicure",category:"Nails",duration:45,price:"Price on request"},
-    {id:"bridal",name:"Bridal grooming",category:"More",duration:120,price:"Price on request"},
-    {id:"makeup",name:"Makeup",category:"More",duration:60,price:"Price on request"},
-    {id:"makeover",name:"Complete makeover",category:"More",duration:180,price:"Price on request"}
+    {id:"haircut",name:"Haircut & styling",category:"Hair",duration:60,price:"₹499",amount:499},
+    {id:"colour",name:"Hair colouring & highlights",category:"Hair",duration:120,price:"₹2,499",amount:2499},
+    {id:"keratin",name:"Keratin treatment",category:"Hair",duration:120,price:"₹3,999",amount:3999,prices:{"Nagarabhavi":3699}},
+    {id:"beard",name:"Beard grooming",category:"Hair",duration:30,price:"₹199",amount:199},
+    {id:"kids",name:"Kids haircut",category:"Hair",duration:30,price:"₹299",amount:299},
+    {id:"hairspa",name:"Hair spa",category:"Hair",duration:60,price:"₹799",amount:799},
+    {id:"facial",name:"Facial care",category:"Skin",duration:60,price:"₹1,299",amount:1299,prices:{"Nagarabhavi":1199}},
+    {id:"skincare",name:"Skin consultation",category:"Skin",duration:30,price:"₹299",amount:299},
+    {id:"manicure",name:"Manicure",category:"Nails",duration:45,price:"₹599",amount:599},
+    {id:"pedicure",name:"Pedicure",category:"Nails",duration:45,price:"₹699",amount:699},
+    {id:"bridal",name:"Bridal grooming",category:"More",duration:120,price:"₹14,999",amount:14999},
+    {id:"makeup",name:"Makeup",category:"More",duration:60,price:"₹1,999",amount:1999},
+    {id:"makeover",name:"Complete makeover",category:"More",duration:180,price:"₹4,999",amount:4999}
   ],
   artists:[
     {id:"sample-hair",name:"Sample Hair Artist",role:"Hair specialist",experience:"Sample profile",bio:"Replace this generated portrait with a real team member.",photo:"assets/artist-hair.webp",branches:["RR Nagar","Nagarabhavi"],capabilities:["haircut","colour","keratin","beard","kids","hairspa"]},
@@ -31,9 +31,9 @@ const defaults={
     {id:"sample-nails",name:"Sample Nail Artist",role:"Nail specialist",experience:"Sample profile",bio:"Replace this generated portrait with a real team member.",photo:"assets/artist-nails.webp",branches:["Nagarabhavi"],capabilities:["manicure","pedicure"]}
   ],
   products:[
-    {id:"sample-shampoo",name:"Everyday Shampoo",category:"Hair care",amount:null,price:"Price at salon",description:"Sample product. Replace with the salon's actual shampoo.",photo:"assets/product-shampoo.webp"},
-    {id:"sample-conditioner",name:"Softness Conditioner",category:"Hair care",amount:null,price:"Price at salon",description:"Sample product. Replace with the salon's actual conditioner.",photo:"assets/product-conditioner.webp"},
-    {id:"sample-skin",name:"Daily Skin Ritual",category:"Skin care",amount:null,price:"Price at salon",description:"Sample product. Replace with the salon's actual skincare.",photo:"assets/product-skin.webp"}
+    {id:"sample-shampoo",name:"Everyday Shampoo",category:"Hair care",amount:449,price:"₹449",stock:24,description:"Sample product. Replace with the salon's actual shampoo.",photo:"assets/product-shampoo.webp"},
+    {id:"sample-conditioner",name:"Softness Conditioner",category:"Hair care",amount:499,price:"₹499",stock:18,description:"Sample product. Replace with the salon's actual conditioner.",photo:"assets/product-conditioner.webp"},
+    {id:"sample-skin",name:"Daily Skin Ritual",category:"Skin care",amount:899,price:"₹899",stock:12,description:"Sample product. Replace with the salon's actual skincare.",photo:"assets/product-skin.webp"}
   ],
   offers:[],
   // Opening hours in minutes after midnight, Sunday first. null = closed that day.
@@ -44,7 +44,8 @@ const defaults={
     phone:{"RR Nagar":"+91 89047 10353","Nagarabhavi":"+91 89047 10353"},
     slot:30,notice:60,daysAhead:60,announcement:"",announcementUntil:""
   },
-  photos:{rrHair:"assets/rr-svc-hair.webp",rrSkin:"assets/rr-svc-skin.webp",rrNails:"assets/rr-svc-nails.webp",rrMore:"assets/rr-svc-more.webp",nbHair:"assets/salon-hairwash.webp",nbSkin:"assets/salon-facial.webp",nbNails:"assets/salon-pedicure.webp",nbMore:"assets/salon-vanity.webp",rrHero:"assets/rr-hero-wide.webp",rrG1:"assets/rr-hero.webp",rrG2:"assets/rr-g2.webp",rrG3:"assets/rr-g3.webp",rrG4:"assets/rr-g4.webp",rrG5:"assets/rr-g5.webp",nbHero:"assets/salon-styling.webp",nbG1:"assets/salon-reception.webp",nbG2:"assets/salon-floor.webp",nbG3:"assets/salon-shelf.webp",nbG4:"assets/salon-treatment.webp",nbG5:"assets/salon-lounge.webp"},
+  // Every photo is built from pictures/ by tool/make_photos.sh. B1–B11 are the soft section backgrounds.
+  photos:{"rrHero":"assets/p-rr-hero.webp","rrHair":"assets/p-rr-hair.webp","rrSkin":"assets/p-rr-skin.webp","rrNails":"assets/p-rr-nails.webp","rrMore":"assets/p-rr-more.webp","rrG1":"assets/p-rr-g1.webp","rrG2":"assets/p-rr-g2.webp","rrG3":"assets/p-rr-g3.webp","rrG4":"assets/p-rr-g4.webp","rrG5":"assets/p-rr-g5.webp","rrB1":"assets/p-rr-b1.webp","rrB2":"assets/p-rr-b2.webp","rrB3":"assets/p-rr-b3.webp","rrB4":"assets/p-rr-b4.webp","rrB5":"assets/p-rr-b5.webp","rrB6":"assets/p-rr-b6.webp","rrB7":"assets/p-rr-b7.webp","rrB8":"assets/p-rr-b8.webp","rrB9":"assets/p-rr-b9.webp","rrB10":"assets/p-rr-b10.webp","rrB11":"assets/p-rr-b11.webp","nbHero":"assets/p-nb-hero.webp","nbHair":"assets/p-nb-hair.webp","nbSkin":"assets/p-nb-skin.webp","nbNails":"assets/p-nb-nails.webp","nbMore":"assets/p-nb-more.webp","nbG1":"assets/p-nb-g1.webp","nbG2":"assets/p-nb-g2.webp","nbG3":"assets/p-nb-g3.webp","nbG4":"assets/p-nb-g4.webp","nbG5":"assets/p-nb-g5.webp","nbB1":"assets/p-nb-b1.webp","nbB2":"assets/p-nb-b2.webp","nbB3":"assets/p-nb-b3.webp","nbB4":"assets/p-nb-b4.webp","nbB5":"assets/p-nb-b5.webp","nbB6":"assets/p-nb-b6.webp","nbB7":"assets/p-nb-b7.webp","nbB8":"assets/p-nb-b8.webp","nbB9":"assets/p-nb-b9.webp","nbB10":"assets/p-nb-b10.webp","nbB11":"assets/p-nb-b11.webp"},
   business:{
     rrAddress:"07, Krishna Garden Main Rd, near New Happy Home, Balarama Layout, Rajarajeshwari Nagar, Bengaluru 560098",
     nagarabhaviAddress:"1st Floor, Abhiman Arcade, Muddenapalya Main Rd, near Ayodhya Samrat Hotel, Srigandada Kaval, Nagarabhavi, Bengaluru 560072"
@@ -91,11 +92,12 @@ function rangeOf(v){if(!v||/closed|holiday|off/i.test(v))return null;const parts
 
 const READ={
   services:(r,warn)=>{const name=pick(r,"name","service");if(!name)return null;const mins=parseInt(pick(r,"duration","minutes","durationmin"),10);
-    return {id:pick(r,"id")||slug(name),name,category:category(pick(r,"category")),duration:mins>0?mins:60,price:pick(r,"price")||"Price on request",branches:branchesOf(pick(r,"branches","branch")),active:yes(pick(r,"show","active"),true)}},
+    const pr=pick(r,"price")||"Price on request",prices={},pa=amountOf(pick(r,"pricerrnagar","pricerajarajeshwarinagar")),pn=amountOf(pick(r,"pricenagarabhavi"));if(pa)prices["RR Nagar"]=pa;if(pn)prices["Nagarabhavi"]=pn;
+    return {id:pick(r,"id")||slug(name),name,category:category(pick(r,"category")),duration:mins>0?mins:60,price:pr,amount:amountOf(pr),prices,branches:branchesOf(pick(r,"branches","branch")),active:yes(pick(r,"show","active"),true)}},
   artists:(r,warn)=>{const name=pick(r,"name");if(!name)return null;
     return {id:pick(r,"id")||slug(name),name,role:pick(r,"role"),experience:pick(r,"experience"),bio:pick(r,"about","bio"),photo:photo(pick(r,"photo","photolink")),branches:branchesOf(pick(r,"branches","branch")),servicesText:pick(r,"services","skills"),active:yes(pick(r,"show","active"),true)}},
   products:(r,warn)=>{const name=pick(r,"name","product");if(!name)return null;const raw=pick(r,"price"),amount=amountOf(raw);if(raw&&!amount)warn("Row "+r._row+": price “"+raw+"” is not a number, so it shows as “Price at salon”.");
-    return {id:pick(r,"id")||slug(name),name,category:pick(r,"category"),amount,price:amount?money(amount):"Price at salon",description:pick(r,"description","details"),photo:photo(pick(r,"photo","photolink")),branches:branchesOf(pick(r,"branches","branch")),inStock:yes(pick(r,"instock","stock"),true),active:yes(pick(r,"show","active"),true)}},
+    return {id:pick(r,"id")||slug(name),name,category:pick(r,"category"),amount,price:amount?money(amount):"Price at salon",description:pick(r,"description","details"),photo:photo(pick(r,"photo","photolink")),branches:branchesOf(pick(r,"branches","branch")),inStock:yes(pick(r,"instock","stock"),true),stock:(/^[0-9]+$/.test(pick(r,"stock"))?+pick(r,"stock"):undefined),active:yes(pick(r,"show","active"),true)}},
   offers:(r,warn)=>{const title=pick(r,"title","offer");if(!title)return null;const raw=pick(r,"validuntil","valid","until"),until=isoDate(raw);if(until===null)warn("Row "+r._row+": “"+raw+"” is not a date. Write it like 30/11/2026.");
     return {id:slug(title),title,discount:pick(r,"discount"),details:pick(r,"details","description"),validUntil:until||"",branches:branchesOf(pick(r,"branches","branch")),active:yes(pick(r,"show","active"),true)}},
   holidays:(r,warn)=>{const raw=pick(r,"date","from","start");if(!raw)return null;const from=isoDate(raw),toRaw=pick(r,"until","to","end"),to=toRaw?isoDate(toRaw):from;
@@ -158,5 +160,7 @@ async function refresh(link,opts){const preview=!!(opts&&opts.preview),id=link?i
   if(!preview){try{localStorage.setItem(CACHE_KEY,JSON.stringify({id,at:report.at,tabs}))}catch(e){}window.dispatchEvent(new Event("salon-data-changed"))}
   return report}
 
-window.SalonData={load,refresh,idFrom,dayInfo,clock,escapeHTML,localDate,money,sheetUrl:SHEET_URL,tabs:TABS,defaults:copy(defaults)};
+// Price of a service at one branch (a number), or null when it is "on request".
+function priceFor(svc,branch){if(!svc)return null;const p=svc.prices&&svc.prices[branch];return p||svc.amount||null}
+window.SalonData={priceFor,load,refresh,idFrom,dayInfo,clock,escapeHTML,localDate,money,sheetUrl:SHEET_URL,tabs:TABS,defaults:copy(defaults)};
 })();
