@@ -20,7 +20,7 @@ $("wa").href="https://wa.me/"+data.settings.whatsapp[br]+"?text="+encodeURICompo
 // Services with this branch's prices
 const here=x=>x.active!==false&&(!x.branches||!x.branches.length||x.branches.includes(br));
 const cat={Hair:"Hair",Skin:"Skin",Nails:"Nails",More:"Bridal & makeup"};
-$("services").innerHTML=["Hair","Skin","Nails","More"].map(c=>{const l=data.services.filter(s=>here(s)&&s.category===c);return l.length?'<h3 style="margin:14px 0 4px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#9b7625">'+cat[c]+'</h3>'+l.map(s=>{const p=SalonData.priceFor(s,br);return '<div class="nd-svc"><div><b>'+E(s.name)+'</b><small>'+s.duration+' min</small></div><div><span class="p">'+(p?money(p):E(s.price||"Price on request"))+'</span> <a class="nd-btn" style="min-height:38px;padding:0 14px;font-size:11px;margin-left:8px" href="index.html?branch='+key+'&svc='+E(s.id)+'#booking">Book</a></div></div>'}).join(""):""}).join("");
+$("services").innerHTML=["Hair","Skin","Nails","More"].map(c=>{const l=data.services.filter(s=>here(s)&&s.category===c);return l.length?'<h3 style="margin:14px 0 4px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#9b7625">'+cat[c]+'</h3>'+l.map(s=>{const p=SalonData.priceFor(s,br);return '<div class="nd-svc"><div><b>'+E(s.name)+'</b><small>'+s.duration+' min</small></div><div><span class="p">'+(p?money(p):E(s.price||"Price on request"))+'</span> <a class="nd-btn" style="min-height:44px;padding:0 16px;font-size:11px;margin-left:8px" href="index.html?branch='+key+'&svc='+E(s.id)+'#booking">Book</a></div></div>'}).join(""):""}).join("");
 
 // Team
 const team=data.artists.filter(a=>here(a));

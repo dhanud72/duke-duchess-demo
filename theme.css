@@ -264,3 +264,5 @@ footer .footerinner{flex-wrap:wrap;gap:26px 40px}
 footer .footlinks{display:flex!important;flex-wrap:wrap;gap:10px 22px;max-width:680px}
 footer .footlinks a{white-space:nowrap;color:#D6E6F4}footer .footlinks a:hover{color:#fff}
 footer .contactphone{border-color:#9CCBEE}
+/* tab bar book button: no leftover dark ring */
+.tabbar .tabbook.on i,.tabbar .tabbook i{box-shadow:0 0 0 5px rgba(246,250,253,.92),0 10px 24px rgba(24,45,69,.26)}
