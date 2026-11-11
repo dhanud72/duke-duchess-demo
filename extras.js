@@ -177,7 +177,9 @@ function giftDialog(){const u=A.me();let amt=1000;
     U.dialog('<div class="nd-ok">✓</div><h2>Gift card ready</h2><p class="nd-code big">'+E(g.card.code)+'</p><p class="nd-sub">'+money(amt)+(v.recipient?" for "+E(v.recipient):"")+'. We also sent it by WhatsApp. Redeem it at booking or checkout.</p><div class="nd-actions"><a class="nd-btn gold" target="_blank" rel="noopener noreferrer" href="'+share+'">Share on WhatsApp</a></div>')})}
 
 // ── Called by customer.js after every render ───────────────────────────────────────
-window.NDDX={bookSubmit,orderSubmit,afterRender(){decorate();refreshAccount();renderCarousel();renderReviews();renderPlans();refreshOrderQuote();if(bk.step===4)refreshQuote()}};
+function menuToggle(){const m=$("serviceMenu"),n=m.children.length;let w=$("menuMoreWrap");if(!w){w=document.createElement("div");w.id="menuMoreWrap";w.className="menumore";w.innerHTML='<button type="button" class="btn small" id="menuMore"></button>';m.after(w);w.querySelector("button").addEventListener("click",()=>{m.classList.toggle("lx-collapsed");menuToggle()});m.classList.add("lx-collapsed")}
+  w.hidden=n<=6;$("menuMore").textContent=m.classList.contains("lx-collapsed")?"Show all "+n+" services":"Show fewer"}
+window.NDDX={bookSubmit,orderSubmit,afterRender(){decorate();menuToggle();refreshAccount();renderCarousel();renderReviews();renderPlans();refreshOrderQuote();if(bk.step===4)refreshQuote()}};
 $("ndTrack").addEventListener("scroll",()=>requestAnimationFrame(syncDots),{passive:true});
 
 // ── Deep links from the branch pages: ?branch=rr|nb&svc=haircut ──────────────────

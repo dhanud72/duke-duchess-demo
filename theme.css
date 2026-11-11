@@ -201,3 +201,21 @@ footer .contactphone{border-color:#D8BFA9;color:#F5EDE4}
 .wiztop p,.wizhint,.svccard span{color:#5E5046}
 .wizsteps button{color:#6E6256}.wizsteps button:disabled{opacity:1;color:#7A6C60}.wizsteps b{background:#E3D5C6;color:#5E5046}
 .optional{color:#6E6256}
+
+/* ── Shorter home page ── */
+#serviceMenu.lx-collapsed .menuitem:nth-child(n+7){display:none}
+.menumore{margin-top:18px;text-align:center}.menumore[hidden]{display:none}
+.nd-faq .nd-morebtn{margin-top:8px}
+@media(max-width:700px){
+ .booking .bookingnote{display:none}
+ .artistcard .artistphoto{height:230px}
+ .artistcard .artistphoto img{height:100%;object-fit:cover}
+}
+
+/* Phones: drop what the booking steps already show, keep the rest tight */
+@media(max-width:700px){
+ .menu-section{display:none}
+ .artistbody>p{display:none}
+ .artistcard .artskills{display:none}
+ .installgrid:has(.installcard.yours) .installcard:not(.yours){display:none}
+}

@@ -194,3 +194,16 @@ body.nd-page{background:#EFE3D8;color:#241C17}
 @media(max-width:560px){.nd-hero h1{font-size:clamp(24px,7vw,38px)}}
 .nd-page a:not(.nd-btn):not(.brandmini){color:#6E5440}.nd-page .nd-foot a,.nd-page .nd-head a{color:inherit}
 .nd-foot a{color:#D8BFA9!important}.nd-head nav a,.nd-head .brandmini{color:#F5EDE4!important}
+
+/* ── Shorter pages ── */
+.nd-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.nd-gallery img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:0}
+.nd-page .nd-chips{margin:0 0 6px}
+.nd-more,.nd-morebtn{margin-top:6px;align-self:flex-start}
+.nd-faq .nd-faq-more{display:grid;gap:10px}
+@media(max-width:760px){
+ .nd-gallery{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:64%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:-20px;padding-right:20px}
+ .nd-gallery::-webkit-scrollbar{display:none}.nd-gallery img{scroll-snap-align:start;aspect-ratio:4/5}
+ .nd-page h2{margin-top:26px}
+}
+@media(max-width:760px){.nd-team{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:-20px;padding-right:20px}.nd-team::-webkit-scrollbar{display:none}.nd-team .m{scroll-snap-align:start}}
