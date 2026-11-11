@@ -188,3 +188,9 @@ footer .contactphone{border-color:#D8BFA9;color:#F5EDE4}
 .bookingcard .linkbtn,.drawer .linkbtn,.pview .linkbtn{color:#6E5440}
 .bookingcard .wiztop .linkbtn{text-decoration:underline}
 .gchips b,.gchips small{display:block}
+
+/* Small phones (360px): header fits with room to spare */
+@media(max-width:380px){
+ header.nav .brand{font-size:14px;gap:6px}header.nav .brand img{width:32px;height:32px}
+ header.nav .navright{gap:5px}header.nav .bag,header.nav .bag.acct{width:36px;height:36px}
+}
