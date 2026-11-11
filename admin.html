@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1F3347"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png"><link rel="apple-touch-icon" href="icons/owner-apple-touch.png">
+<meta name="theme-color" content="#0F0D0C"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png"><link rel="apple-touch-icon" href="icons/owner-apple-touch.png">
 <title>Admin portal (demo) | New Duke &amp; Duchess</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="ndd.css">
 <style>
-body.nd-page{background:#EAF3FB}
-.ad-top{background:#1F3347;color:#fff;position:sticky;top:0;z-index:30;border-bottom:1px solid #9CCBEE66}
+body.nd-page{background:#EFE3D8}
+.ad-top{background:#0F0D0C;color:#fff;position:sticky;top:0;z-index:30;border-bottom:1px solid #D8BFA966}
 .ad-top .in{max-width:1280px;margin:auto;padding:0 16px;min-height:60px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
-.ad-top b{letter-spacing:-.04em;text-transform:uppercase}.ad-top b span{color:#9CCBEE}.ad-top .who{display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
+.ad-top b{letter-spacing:-.04em;text-transform:uppercase}.ad-top b span{color:#D8BFA9}.ad-top .who{display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
 .ad-top select,.ad-top button{min-height:38px;border-radius:999px;border:1px solid #ffffff4d;background:#ffffff14;color:#fff;padding:0 14px;font:600 12px "DM Sans",sans-serif;cursor:pointer}.ad-top select option{color:#000}
-.ad-nav{background:#2a4560;overflow-x:auto;scrollbar-width:none;position:sticky;top:60px;z-index:29}.ad-nav::-webkit-scrollbar{display:none}
+.ad-nav{background:#1B1816;overflow-x:auto;scrollbar-width:none;position:sticky;top:60px;z-index:29}.ad-nav::-webkit-scrollbar{display:none}
 .ad-nav .in{max-width:1280px;margin:auto;padding:0 10px;display:flex;gap:2px;width:max-content;min-width:100%}
 .ad-nav button{flex:none;border:0;background:none;color:#aab5b8;padding:0 14px;min-height:46px;font:700 12px "DM Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;border-bottom:3px solid transparent;cursor:pointer;position:relative}
-.ad-nav button[aria-selected="true"]{color:#9CCBEE;border-color:#9CCBEE}.ad-nav i{font-style:normal;background:#9CCBEE;color:#1F3347;border-radius:9px;min-width:18px;height:18px;display:inline-grid;place-items:center;font-size:10px;margin-left:6px;padding:0 4px}
+.ad-nav button[aria-selected="true"]{color:#D8BFA9;border-color:#D8BFA9}.ad-nav i{font-style:normal;background:#D8BFA9;color:#0F0D0C;border-radius:9px;min-width:18px;height:18px;display:inline-grid;place-items:center;font-size:10px;margin-left:6px;padding:0 4px}
 .ad-main{max-width:1280px;margin:auto;padding:20px 16px 80px}
 .ad-login{max-width:420px;margin:60px auto}
 .ad-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 18px}
@@ -30,11 +30,11 @@ body.nd-page{background:#EAF3FB}
 .ad-tl{background:#fff;border:1px solid var(--nd-line);border-radius:18px;padding:14px;margin:0 0 12px}.ad-tl h3{margin:0 0 8px;font-size:15px}
 .ad-axis,.ad-row{position:relative;height:34px;background:repeating-linear-gradient(90deg,#f7f3e6 0 calc(100%/var(--hrs) - 1px),#e9e2cf calc(100%/var(--hrs) - 1px) calc(100%/var(--hrs)));border-radius:8px}
 .ad-axis{height:22px;background:none;font-size:10px;color:var(--nd-muted)}.ad-axis span{position:absolute;transform:translateX(-50%)}
-.ad-blk{position:absolute;top:3px;bottom:3px;border-radius:7px;background:#1F3347;color:#9CCBEE;font-size:11px;font-weight:700;padding:3px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;border:0}
+.ad-blk{position:absolute;top:3px;bottom:3px;border-radius:7px;background:#0F0D0C;color:#D8BFA9;font-size:11px;font-weight:700;padding:3px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;border:0}
 .ad-blk.completed{background:#1f7a45;color:#fff}.ad-blk.noshow,.ad-blk.cancelled{background:#9a413b;color:#fff;opacity:.6}
 .ad-off{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,#d9d4c4,#d9d4c4 6px,#e7e2d3 6px,#e7e2d3 12px);opacity:.9;border-radius:6px}
 .ad-chart{display:flex;align-items:flex-end;gap:3px;height:140px;background:#fff;border:1px solid var(--nd-line);border-radius:18px;padding:14px 14px 8px;overflow-x:auto}
-.ad-chart div{flex:1 0 12px;max-width:34px;background:#1F3347;border-radius:5px 5px 0 0;position:relative;min-height:2px}.ad-chart div:hover:after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#1F3347;color:#fff;font-size:11px;padding:3px 7px;border-radius:6px;white-space:nowrap}
+.ad-chart div{flex:1 0 12px;max-width:34px;background:#0F0D0C;border-radius:5px 5px 0 0;position:relative;min-height:2px}.ad-chart div:hover:after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0F0D0C;color:#fff;font-size:11px;padding:3px 7px;border-radius:6px;white-space:nowrap}
 .ad-util{display:grid;gap:8px}.ad-util>div{display:grid;grid-template-columns:150px 1fr 50px;gap:10px;align-items:center;font-size:14px}.ad-util i{display:block;height:12px;border-radius:6px;background:#e9e2cf;overflow:hidden}.ad-util i b{display:block;height:100%;background:#9b7625}
 .ad-note{background:#fff6e3;border:1px solid #f0d9a8;border-radius:14px;padding:10px 14px;font-size:13px;margin:0 0 14px}
 .ad-chk{display:flex;gap:8px;flex-wrap:wrap}.ad-chk label{display:flex;gap:6px;align-items:center;font-size:13px;text-transform:none;letter-spacing:0;font-weight:500}
