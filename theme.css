@@ -184,3 +184,11 @@ footer{background:linear-gradient(180deg,#3B2A20,#2A1E17)}
 .booking .bookingnote,.booking .bookingnote strong,.booking .bookingnote li{color:var(--mocha)!important}
 .photobg:after{background-position:-2% 4%,96% 78%,52% 96%,0 0!important}
 @media(max-width:700px){.booking:before{background-position:112% 1%,-12% 99%,0 0!important}}
+
+/* Small phones: comfortable tap size on service cards, header that fits at 360px */
+.service button{min-height:44px;padding:0 20px;display:inline-flex;align-items:center}
+@media(max-width:380px){
+ header.nav .brand{font-size:15px;gap:7px}header.nav .brand img{width:34px;height:34px}
+ header.nav .navright{gap:6px}header.nav .bag,header.nav .bag.acct{width:38px;height:38px}
+ header.nav .container,header.nav{padding-left:14px;padding-right:14px}
+}
