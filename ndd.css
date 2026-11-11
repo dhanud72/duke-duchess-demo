@@ -121,3 +121,6 @@ body.nd-page{margin:0;background:#f5f2ea;color:var(--nd-ink);font-family:"DM San
 .nd-prose{max-width:760px}.nd-prose h2{font-size:20px;margin:28px 0 8px}.nd-prose p,.nd-prose li{color:#33393d}.nd-prose .draft{background:#fff6e3;border:1px solid #f0d9a8;border-radius:14px;padding:12px 16px;font-size:14px}
 .nd-prose table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}.nd-prose th,.nd-prose td{border:1px solid var(--nd-line);padding:9px 12px;text-align:left}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* Phones: the Instagram icon moves to the footer so the account + bag buttons fit on screen */
+@media(max-width:560px){header.nav .insta{display:none!important}header.nav .bag.acct{width:42px}}
