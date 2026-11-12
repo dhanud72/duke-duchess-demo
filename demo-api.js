@@ -35,7 +35,8 @@ const rupee=n=>"₹"+Math.round(n).toLocaleString("en-IN");
 
 // ── State ────────────────────────────────────────────────────────────────────
 let S=load(),vers=0;
-function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.ver===VER)return v}catch(e){}const s=seed();try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}return s}
+function norm(s){s.content=s.content||{faq:null,photos:{}};s.content.photos=s.content.photos||{};s.catalog=s.catalog||{};s.catalog.artists=s.catalog.artists||{};return s}
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.ver===VER)return norm(v)}catch(e){}const s=norm(seed());try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}return s}
 function save(){vers++;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}window.dispatchEvent(new Event("ndd-demo-changed"))}
 function seed(){
   const t=localDate();
@@ -80,6 +81,8 @@ function applyCatalog(data){
   (c.addedProducts||[]).forEach(p=>{if(!data.products.some(x=>x.id===p.id))data.products.push(JSON.parse(JSON.stringify(p)))});
   data.products.forEach(p=>{if(p.stock!=null){p.inStock=p.stock>0&&p.inStock!==false}if(p.amount)p.price=rupee(p.amount)});
   (S.staffAdded||[]).forEach(a=>{if(!data.artists.some(x=>x.id===a.id))data.artists.push(JSON.parse(JSON.stringify(a)))});
+  data.artists.forEach(a=>{const o=S.catalog.artists&&S.catalog.artists[a.id];if(o)Object.assign(a,o)});
+  if(S.content&&S.content.photos)Object.assign(data.photos,S.content.photos);
   return data}
 function base(){if(baseCache&&baseVer===vers)return baseCache;baseCache=applyCatalog(SalonData.load());baseVer=vers;return baseCache}
 window.addEventListener("salon-data-changed",()=>{baseVer=-1});
@@ -103,7 +106,7 @@ function artistFree(a,branch,iso,t,dur,ignoreId){
 // scheduled artist (e.g. content from a sheet), or null when the slot is not free.
 function freeSlot(branch,svcId,artistId,iso,t,dur,ignoreId){
   const info=SalonData.dayInfo(base(),branch,iso);if(info.closed||t<info.open||t+dur>info.close)return null;
-  if(artistId&&artistId!=="any"){const a=base().artists.find(x=>x.id===artistId);return a&&artistFree(a,branch,iso,t,dur,ignoreId)?a.id:null}
+  if(artistId&&artistId!=="any"){const a=base().artists.find(x=>x.id===artistId);return a&&a.active!==false&&(!a.branches||!a.branches.length||a.branches.includes(branch))&&artistFree(a,branch,iso,t,dur,ignoreId)?a.id:null}
   const list=eligible(branch,svcId);if(!list.length)return "walk-in";
   const free=list.filter(a=>artistFree(a,branch,iso,t,dur,ignoreId));if(!free.length)return null;
   const load=a=>S.bookings.filter(b=>b.artistId===a.id&&b.date===iso&&busyStatus(b)).length;
@@ -153,6 +156,12 @@ const API={
   addService(s){s.id=s.id||("svc-"+uid("x").toLowerCase());S.catalog.addedServices.push(s);save();return s},
   addProduct(p){p.id=p.id||("prd-"+uid("x").toLowerCase());S.catalog.addedProducts.push(p);save();return p},
   addArtist(a){S.staffAdded=S.staffAdded||[];a.id=a.id||("stf-"+uid("x").toLowerCase());S.staffAdded.push(a);save();return a},
+  // —— content (stylist profiles, gallery photos, FAQ)
+  updateArtist(id,patch){const added=(S.staffAdded||[]).find(x=>x.id===id);if(added)Object.assign(added,patch);else S.catalog.artists[id]=Object.assign(S.catalog.artists[id]||{},patch);save()},
+  faq:()=>S.content.faq,
+  setFaq(list){S.content.faq=list;save()},
+  setPhoto(slot,url){if(url)S.content.photos[slot]=url;else delete S.content.photos[slot];save()},
+  photoOverrides:()=>Object.assign({},S.content.photos),
   // —— auth
   me:user,
   signIn({provider,name,email,phone,refCode,otp}){

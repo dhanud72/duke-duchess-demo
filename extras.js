@@ -39,7 +39,7 @@ function decorate(){if(decorated)return;decorated=true;
   [["rrAddress","locRR"],["nagarabhaviAddress","locNB"]].forEach(([id,card])=>{const host=document.createElement("div");host.className="nd-map";$(card).querySelector(".hoursline").after(host);U.mapEmbed(host,$(id).textContent)});
   // footer links
   const fl=document.querySelector(".footlinks");
-  if(fl)fl.insertAdjacentHTML("beforeend",'<a href="rr-nagar.html">R R Nagar</a><a href="nagarabhavi.html">Nagarabhavi</a><a href="account.html">My account</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cancellation.html">Cancellation</a><a href="refund.html">Refunds</a><a href="admin.html">Admin (demo)</a>');
+  if(fl)fl.insertAdjacentHTML("beforeend",'<a href="rr-nagar.html">R R Nagar</a><a href="nagarabhavi.html">Nagarabhavi</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="account.html">My account</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cancellation.html">Cancellation</a><a href="refund.html">Refunds</a><a href="admin.html">Admin (demo)</a>');
   // text updates now that booking is real
   const perks=document.querySelectorAll(".perks li");if(perks.length>=3){perks[0].textContent="Live availability by stylist";perks[1].textContent="Confirmation by email and WhatsApp";perks[2].textContent="Pay at the salon or online";}
   const bp=document.querySelector(".bookingcopy>p");if(bp)bp.textContent="Pick a service, a stylist and a time that suits you. You see only times that are really free, and your confirmation arrives straight away.";

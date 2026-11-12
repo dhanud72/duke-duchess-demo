@@ -33,5 +33,7 @@ $("team").innerHTML=team.length?team.map(a=>'<div class="m">'+(a.photo?'<img src
 const rv=A.reviews(br).slice(0,6);
 $("reviews").innerHTML=rv.length?rv.map(r=>'<article class="nd-rev"><div class="st" aria-label="'+r.rating+' out of 5">'+U.stars(r.rating)+'</div><p>'+E(r.text)+'</p><small>'+E(r.name)+(r.demo?" · Sample":"")+" · "+E(A.fmtDate(r.date))+'</small></article>').join(""):"<p>No reviews yet.</p>";
 
+[...document.querySelectorAll(".nd-gallery img")].forEach((img,i)=>{const s=data.photos[key+"G"+(i+1)];if(s)img.src=s});
+const hp=data.photos[key+"Hero"],hi=document.querySelector(".nd-hero img");if(hp&&hi)hi.src=hp;
 U.mapEmbed($("mapHost"),document.querySelector(".nd-panel p").textContent);
 })();

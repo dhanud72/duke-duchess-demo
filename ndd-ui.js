@@ -63,9 +63,14 @@ UI.consent=function(){const v=consentVal();if(v){applyConsent(v);return}
 UI.mapEmbed=function(host,address){host.innerHTML='<button type="button" class="nd-btn mapbtn">Show map</button>';
   host.querySelector("button").addEventListener("click",()=>{host.innerHTML='<iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q='+encodeURIComponent(address)+'&output=embed"></iframe>'})};
 
+// Resize a chosen photo and return it as a small JPEG data URL (stored in the browser in this demo).
+UI.fileToDataURL=function(file,maxW,q){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const k=Math.min(1,maxW/img.width),c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",q||.8))};img.onerror=rej;img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})};
+// If the owner edited the FAQ in the admin, show that instead of the built-in text.
+UI.renderFaq=function(){const list=A.faq();if(!list||!list.length)return;const item=q=>"<details><summary>"+H(q.q)+"</summary><p>"+H(q.a)+"</p></details>";document.querySelectorAll(".nd-faq").forEach(box=>{box.innerHTML=list.slice(0,4).map(item).join("")+(list.length>4?'<div class="nd-faq-more" hidden>'+list.slice(4).map(item).join("")+'</div><button type="button" class="nd-btn nd-morebtn" onclick="this.previousElementSibling.hidden=false;this.remove()">Show all '+list.length+" questions</button>":"")})};
 UI.stars=n=>"★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);
 UI.signedLabel=function(){const u=A.me();return u?(u.name||"Account").split(" ")[0]:"Sign in"};
 window.NDDUI=UI;
+UI.renderFaq();window.addEventListener("ndd-demo-changed",()=>{UI.renderFaq()});
 document.addEventListener("DOMContentLoaded",UI.consent);
 if(document.readyState!=="loading")UI.consent();
 })();
